@@ -43,7 +43,7 @@ class Estudiante extends Model{
         $result = $db->execSQL(
             $sql,
             false,
-            "i",
+            "s",
             $this->id
         );
         $db->close();
