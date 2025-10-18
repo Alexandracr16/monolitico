@@ -1,5 +1,5 @@
 <?php
-namespace App\Models\SQModels;
+namespace App\Models\SQLModels;
 
 class SqlNotas{
     public static function selectAll(){

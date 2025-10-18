@@ -57,7 +57,7 @@ class Estudiante extends Model{
         $result = $db->execSQL(
             $sql,
             true,// dejar como true
-            "i",
+            "s",
             $this->codigo
         );
         $user = null;
