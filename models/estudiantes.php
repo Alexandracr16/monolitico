@@ -1,6 +1,13 @@
 <?php
 namespace App\Models;
 
+require __DIR__."/sql_models/sql_estudiantes.php";
+require __DIR__."/sql_models/model.php";
+require __DIR__."/databases/notas_app-db.php";
+
+use App\Models\SQLModels\Model;
+use App\Models\SQLModels\SqlEstudiantes;
+use App\Models\Databases\notasAppBD ;
 class Estudiante extends Model{
 
     private $codigo = 0;
@@ -18,18 +25,18 @@ class Estudiante extends Model{
 
     public function all()
     {
-        $sql = SqlEstudiante::selectAll();
+        $sql = SqlEstudiantes::selectAll();
         $db = new notasAppBD();
         $result = $db->execSQL($sql, true);
         $estudiantes = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $estudiante = new Usuario();
+                $estudiante = new Estudiante();
                 $estudiante->set('codigo', $row["codigo"]);
                 $estudiante->set('nombre', $row["nombre"]);
                 $estudiante->set('email', $row["email"]);
                 $estudiante->set('programa', $row["programa"]);
-                array_push($estudiantes, $estudiante);
+                array_push($estudiante, $estudiantes);
             }
         }
         $db->close();
@@ -38,66 +45,46 @@ class Estudiante extends Model{
 
    public function delete()
     {
-        $sql = SqlEstudiante::delete();
+        $sql = SqlEstudiantes::delete();
         $db = new notasAppBD();
         $result = $db->execSQL(
             $sql,
             false,
             "s",
-            $this->id
+            $this->codigo
         );
         $db->close();
         return $result;
     }
 
-    public function find()
-    {
-        $sql = SqlEstudiante::selectByUserPwd();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            true,// dejar como true
-            "s",
-            $this->codigo
-        );
-        $user = null;
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $user = new Estudiante();
-                $user->set('codigo', $row['codigo']);
-                $user->set('nombre', $row['nombre']);
-                $user->set('email', $row['email']);
-                $user->set('programa', $row['programa']);
-                break;
-            }
-        }
-        $db->close();
-        return $user;
+    public function find(){
     }
     public function insert(){
-        $sql = SqlEstudiante::insertInto();
+        $sql = SqlEstudiantes::insertInto();
         $db = new notasAppBD();
         $result = $db->execSQL(
            $sql,
             false,
             "is",
             $this->codigo,
-            $this->nombre
+            $this->nombre,
+            $this->email,
+            $this->programa
         );
         $db->close();
         return $result;
     }
     
     public function update(){
-        $sql = SqlUsuario::update();
-        $db = new GrupoAvanzadaDB();
+        $sql = SqlEstudiantes::update();
+        $db = new notasAppBD();
         $result = $db->execSQL(
            $sql,
             false,
             "ssi",
-            $this->username,
-            $this->password,
-            $this->id
+            $this->nombre,
+            $this->email,
+            $this->programa
         );
         $db->close();
         return $result;
