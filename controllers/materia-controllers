@@ -1,0 +1,46 @@
+<?php
+namespace App\Controllers;
+
+require __DIR__."/../models/materias.php";
+
+use App\Models\Materia;
+use App\Models\Materias;
+
+class MateriaController {
+    public function queryAllMateria() {
+        $materia = new Materias();
+        return $materia->all();
+    }
+
+    public function saveNewMateria($request){
+        if (empty($request['codigo'])){
+            return false;
+        }
+        $materia = new Materias();
+        $materia->set('codigo', $request['codigo']);
+        $materia->set('nombre', $request['nombre']);
+        return $materia->insert();
+    }
+
+    public function deleteMateria($request){
+        if (empty($request['codigo'])){
+            return false;
+        }
+        $materia = new Materias();
+        $materia->set('codigo', $request['codigo']);
+        return $materia->delete();
+    }
+
+    public function updateMateria($request){
+        if (
+            empty($request['codigo'])
+            || empty($request['nombre'])
+        ){
+            return false;
+        }
+        $materia = new Materias();
+        $materia->set('codigo', $request['codigo']);
+        $materia->set('nombre', $request['nombre']);
+        return $materia->update();
+    }
+}
