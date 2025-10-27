@@ -1,85 +1,50 @@
 <?php
-namespace App\Models;
-
-require __DIR__."/sql_models/model.php";
-require __DIR__."/sql_models/sql_programas.php";
-require __DIR__."/databases/notas_app-db.php";
-
-use App\Models\SQLModels\Model;
-use App\Models\SQLModels\SqlProgramas;
-use App\Models\Databases\notasAppBD ;
+require_once __DIR__ . '/databases/notas_app-db.php';
 
 
-class Programas extends Model
-{
-    private $codigo=0;
-    private $nombre=null;
+class Programa {
+    private $conn;
 
-    public function get($prop){
-        return $this->{$prop};
+    public function __construct() {
+        $db = new Database();
+        $this->conn = $db->conectar();
     }
 
-    public function set($prop, $value){
-        $this->{$prop}=$value;
+    public function listar() {
+        $sql = "SELECT * FROM programas";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
     }
 
-    public function all(){
-        $sql=SqlProgramas::selectAll();
-        $db= new notasAppBD();
-        $result= $db->execSQL($sql, true);
-        $programas= [];
-        if ($result->num_rows>0){
-            while($row = $result->fetch_assoc()){
-                $programa= new Programas();
-                $programa-> set('codigo', $row["codigo"]);
-                $programa->set('nombre', $row["nombre"]);
-                array_push($programas, $programa);
-
-            }
-        }
-        $db->close();
-        return $programas;
-
-    }
-    public function delete(){
-        $sql = SqlProgramas::delete();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            false,
-            "s",
-            $this->codigo
-        );
-        $db->close();
-        return $result;
+    public function crear($codigo, $nombre) {
+        $sql = "INSERT INTO programas (codigo, nombre) VALUES (:codigo, :nombre)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        $stmt->bindParam(':nombre', $nombre);
+        return $stmt->execute();
     }
 
-    public function find(){}
-    public function insert(){
-        $sql = SqlProgramas::insertInto();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            false,
-            "ss",
-            $this->codigo,
-            $this->nombre
-
-        );
-        $db->close();
-        return $result;
+    public function buscar($codigo) {
+        $sql = "SELECT * FROM programas WHERE codigo = :codigo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function update(){
-        $sql = SqlProgramas::update();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            false,
-            "ss",
-            $this->codigo,
-            $this->nombre
-        );
-        $db->close();
-        return $result;
+
+    public function editar($codigo, $nombre) {
+        $sql = "UPDATE programas SET nombre = :nombre WHERE codigo = :codigo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        $stmt->bindParam(':nombre', $nombre);
+        return $stmt->execute();
+    }
+
+    public function eliminar($codigo) {
+        $sql = "DELETE FROM programas WHERE codigo = :codigo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        return $stmt->execute();
     }
 }

@@ -1,89 +1,70 @@
 <?php
-namespace App\Models;
+require_once __DIR__ . '/databases/notas_app-db.php';
 
-require __DIR__."/sql_models/model.php";
-require __DIR__."/sql_models/sql_materias.php";
-require __DIR__."/databases/notas_app-db.php";
+class Materia {
+    private $conn;
 
-use App\Models\SQLModels\Model;
-use App\Models\SQLModels\SqlMaterias;
-use App\Models\Databases\notasAppBD ;
-
-
-class Materias extends Model
-{
-    private $codigo=0;
-    private $nombre=null;
-    private $programa = null;
-
-    public function get($prop){
-        return $this->{$prop};
+    public function __construct() {
+        $db = new Database();
+        $this->conn = $db->conectar();
     }
 
-    public function set($prop, $value){
-        $this->{$prop}=$value;
+    // Listar todas las materias con el nombre del programa que tienen
+    public function listar() {
+        $sql = "SELECT m.codigo, m.nombre, m.programa, p.nombre AS nombre_programa
+                FROM materias m
+                INNER JOIN programas p ON m.programa = p.codigo
+                ORDER BY m.codigo ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
     }
 
-    public function all(){
-        $sql=SqlMaterias::selectAll();
-        $db= new notasAppBD();
-        $result= $db->execSQL($sql, true);
-        $materias= [];
-        if ($result->num_rows>0){
-            while($row = $result->fetch_assoc()){
-                $materia= new Materias();
-                $materia-> set('codigo', $row["codigo"]);
-                $materia->set('nombre', $row["nombre"]);
-                $materia->set('programa', $row["programa"]);
-                array_push($materias, $materia);
-
-            }
-        }
-        $db->close();
-        return $materias;
-
-    }
-    public function delete(){
-        $sql = SqlMaterias::delete();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            false,
-            "s",
-            $this->codigo
-        );
-        $db->close();
-        return $result;
+    // Crea nueva materia
+    public function crear($codigo, $nombre, $programa) {
+        $sql = "INSERT INTO materias (codigo, nombre, programa)
+                VALUES (:codigo, :nombre, :programa)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':programa', $programa);
+        return $stmt->execute();
     }
 
-    public function find(){}
-    public function insert(){
-        $sql = SqlMaterias::insertInto();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            false,
-            "sss",
-            $this->codigo,
-            $this->nombre,
-            $this->programa
-
-        );
-        $db->close();
-        return $result;
+    // Buscar materia por código
+    public function buscar($codigo) {
+        $sql = "SELECT * FROM materias WHERE codigo = :codigo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function update(){
-        $sql = SqlMaterias::update();
-        $db = new notasAppBD();
-        $result = $db->execSQL(
-            $sql,
-            false,
-            "sss",
-            $this->codigo,
-            $this->nombre,
-            $this->programa
-        );
-        $db->close();
-        return $result;
+
+    // Editar materia, se bloquea el codigo
+    public function editar($codigo, $nombre, $programa) {
+        $sql = "UPDATE materias
+                SET nombre = :nombre, programa = :programa
+                WHERE codigo = :codigo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':programa', $programa);
+        $stmt->bindParam(':codigo', $codigo);
+        return $stmt->execute();
+    }
+
+    // Eliminar materia
+    public function eliminar($codigo) {
+        $sql = "DELETE FROM materias WHERE codigo = :codigo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':codigo', $codigo);
+        return $stmt->execute();
+    }
+
+    // Obtener todos los programas (para el select en los formularios)
+    public function obtenerProgramas() {
+        $sql = "SELECT codigo, nombre FROM programas ORDER BY nombre ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
     }
 }
