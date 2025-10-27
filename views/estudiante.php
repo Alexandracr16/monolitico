@@ -18,7 +18,7 @@ $estudiante = $estudianteController->queryAllEstudiante();
     <h1>Lista de estudiantes</h1>
     <br>
     <a href="estudiante-form.php">Crear Estuadiante</a>
-    <br>
+    <br><br>
     <table>
         <thead>
             <tr>
@@ -53,8 +53,9 @@ $estudiante = $estudianteController->queryAllEstudiante();
             }
             ?>
         </tbody>
+         
 
-        <div id="borrarEstudianteModal" class="modal">
+<!--         <div id="borrarEstudianteModal" class="modal">
             <h3>Eliminar registro</h3>
             <p>El registro se eliminara permanente</p>
             <form name="borrarEstudiante" action="operaciones/borrar-estudiante.php" method="post">
@@ -64,9 +65,12 @@ $estudiante = $estudianteController->queryAllEstudiante();
                     <button type="reset">Cancelar</button>
                 </div>  
             </form>
-        </div>
+        </div> -->
 
         <script src="../public/js/estudiante.js"></script>
     </table>
+
+       <br>
+        <a href="principal.php">Volver al menu</a>
 </body>
 </html>

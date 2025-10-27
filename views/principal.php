@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>
-        Gestion De Notas
+        Gestion Universidad Yiovany , Jesy and Deivid :p
     </h1>
-    
+    <a href= "estudiante.php" >Estudite</a>
 </body>
 </html>

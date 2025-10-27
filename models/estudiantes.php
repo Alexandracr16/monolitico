@@ -36,7 +36,7 @@ class Estudiante extends Model{
                 $estudiante->set('nombre', $row["nombre"]);
                 $estudiante->set('email', $row["email"]);
                 $estudiante->set('programa', $row["programa"]);
-                array_push($estudiante, $estudiantes);
+                array_push($estudiantes, $estudiante);
             }
         }
         $db->close();
