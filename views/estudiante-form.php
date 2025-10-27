@@ -8,12 +8,16 @@
 <body>
     <h1>Guardar Estudiante</h1>
     <br>
-    <form action="operaciones/guardar-estudiante.php" method="post">
+    <form action="operaciones/agregar-estudiante.php" method="post">
         <?php
         if(!empty($_GET['codigo'])){
             echo '<input type="hidden" name="codigo" value="'.$_GET['codigo'].'">';
         }
         ?>
+        <div>
+            <label for="codigo">Codigo:</label>
+            <input type="text" id="codigo" name="codigo" required>
+        </div>
 
         <div>
             <label for="nombre">Nombre:</label>

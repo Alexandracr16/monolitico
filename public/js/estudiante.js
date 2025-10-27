@@ -1,5 +1,5 @@
 const borrarEstudianteModal = document.getElementById('borrarEstudianteModal');
-const borrarEstudianteForm = document.forms['borrarEstudianteForm'];
+const borrarEstudianteForm = document.forms['borrarEstudiante'];
 
 const onClickBorrar = (codigo)=>{
     borrarEstudianteForm['codigo'].value = codigo;

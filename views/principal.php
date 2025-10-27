@@ -9,6 +9,9 @@
     <h1>
         Gestion Universidad Yiovany , Jesy and Deivid :p
     </h1>
-    <a href= "estudiante.php" >Estudite</a>
+    <a href= "estudiante.php" >Estudiante</a><br>
+    <a href= "materia.php" >Materias</a><br>
+    <a href= "nota.php" >Notas</a><br>
+    <a href= "programa.php" >Programas</a><br>
 </body>
 </html>

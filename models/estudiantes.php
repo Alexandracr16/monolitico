@@ -8,9 +8,10 @@ require __DIR__."/databases/notas_app-db.php";
 use App\Models\SQLModels\Model;
 use App\Models\SQLModels\SqlEstudiantes;
 use App\Models\Databases\notasAppBD ;
+
 class Estudiante extends Model{
 
-    private $codigo = 0;
+    private $codigo = null;
     private $nombre = null;
     private $email = null;
     private $programa = null;
@@ -65,7 +66,7 @@ class Estudiante extends Model{
         $result = $db->execSQL(
            $sql,
             false,
-            "is",
+            "isss",
             $this->codigo,
             $this->nombre,
             $this->email,
@@ -81,10 +82,12 @@ class Estudiante extends Model{
         $result = $db->execSQL(
            $sql,
             false,
-            "ssi",
+            "ssss",
             $this->nombre,
             $this->email,
-            $this->programa
+            $this->programa,
+            $this->codigo
+
         );
         $db->close();
         return $result;

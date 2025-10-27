@@ -15,8 +15,8 @@ class SqlEstudiantes{
 
     public static function update(){
         $sql = "update estudiantes set ";
-        $sql.= "nombre=?"; 
-        $sql.= "email=?";  
+        $sql.= "nombre=?,"; 
+        $sql.= "email=?,";  
         $sql.= "programa=? where codigo=?" ;
         return $sql;
     }
