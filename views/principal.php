@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>
-        Gestion Universidad Yiovany , Jesy and Deivid :p
+        Gestion Universidad Yiovany , Jessy and Deivid :p
     </h1>
     <a href= "estudiante.php" >Estudiante</a><br>
     <a href= "materia.php" >Materias</a><br>

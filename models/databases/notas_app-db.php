@@ -1,20 +1,45 @@
 <?php
-class Database {
-    private $host = "localhost";
-    private $db_name = "notas_app";
-    private $username = "root";
-    private $password = "";
-    private $conn;
+namespace App\Models\Databases;
 
-    public function conectar() {
-        $this->conn = null;
-        try {
-            $this->conn = new PDO("mysql:host=$this->host;dbname=$this->db_name", 
-                                   $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
-            echo "Error de conexión: " . $e->getMessage();
+use mysqli;
+
+class notasAppBD
+{
+    private $hostDb = "localhost";
+    private $userDb = "root";
+    private $pwdDb = "";
+    private $nameDb = "notas_app";
+    private $conexDb = null;
+
+    public function __construct()
+    {
+        $this->conexDb = new mysqli(
+            $this->hostDb,
+            $this->userDb,
+            $this->pwdDb,
+            $this->nameDb
+        );
+        if ($this->conexDb->connect_error) {
+            die("Error DB: " . $this->conexDb->connect_error);
         }
-        return $this->conn;
+    }
+
+    public function close()
+    {
+        $this->conexDb->close();
+    }
+
+    public function execSQL($sql, $isSelect, ...$bindParam)
+    {
+        $prepare = $this->conexDb->prepare($sql);
+        if (!empty($bindParam)) {
+            $prepare->bind_param(...$bindParam);
+        }
+        if ($isSelect) {
+            $prepare->execute();
+            return $prepare->get_result();
+        } else {
+            return $prepare->execute();
+        }
     }
 }

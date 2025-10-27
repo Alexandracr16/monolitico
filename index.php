@@ -1,5 +1,8 @@
 <?php
-error_reporting(E_ALL);
+
+header("Location: views/principal.php");
+
+/* error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $controller = $_GET['controller'] ?? 'programa';
@@ -30,5 +33,5 @@ if (!method_exists($controlador, $action)) {
 }
 
 // Llama a la acción
-$controlador->$action();
+$controlador->$action(); */
 

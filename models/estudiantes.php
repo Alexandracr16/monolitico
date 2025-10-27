@@ -66,7 +66,7 @@ class Estudiante extends Model{
         $result = $db->execSQL(
            $sql,
             false,
-            "isss",
+            "ssss",
             $this->codigo,
             $this->nombre,
             $this->email,
@@ -87,14 +87,9 @@ class Estudiante extends Model{
             $this->email,
             $this->programa,
             $this->codigo
-
         );
         $db->close();
         return $result;
     }
-
-
-
-
 }
 
