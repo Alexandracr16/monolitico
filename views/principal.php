@@ -12,8 +12,7 @@
     <a href= "estudiante.php" >Estudiante</a><br>
     <a href= "materia.php" >Materias</a><br>
     <a href= "nota.php" >Notas</a><br>
-    <a href= "programa.php" >Programas</a><br>
-    <a href="/monolitico/controllers/programa-controller.php?action=listar">📘 Programas</a>
+    <a href="/monolitico/controllers/programa-controller.php?action=listar">Programas</a>
 
 </body>
 </html>
