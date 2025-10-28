@@ -1,51 +1,54 @@
 <?php
 namespace App\Controllers;
 
-require __DIR__."/../models/estudiantes.php";
+require __DIR__ . "/../models/programas.php";
 
-use App\Models\Estudiante;
+use App\Models\Programa;
 
-class EstudianteController {
-    public function queryAllEstudiante() {
-        $estudiante = new Estudiante();
-        return $estudiante->all();
+class ProgramaController
+{
+    // 🔹 Consultar todos los programas
+    public function queryAllProgramas()
+    {
+        $programa = new Programa();
+        return $programa->all();
     }
 
-    public function saveNewEstudiante($request){
-        if (empty($request['codigo'])){
+    // 🔹 Guardar nuevo programa
+    public function saveNewPrograma($request)
+    {
+        if (empty($request['codigo']) || empty($request['nombre'])) {
             return false;
         }
-        $estudiante = new Estudiante();
-        $estudiante->set('codigo', $request['codigo']);
-        $estudiante->set('nombre', $request['nombre']);
-        $estudiante->set('email', $request['email']);
-        $estudiante->set('programa', $request['programa']);
-        return $estudiante->insert();
+
+        $programa = new Programa();
+        $programa->set('codigo', $request['codigo']);
+        $programa->set('nombre', $request['nombre']);
+        return $programa->insert();
     }
 
-    public function deleteEstudiante($request){
-        if (empty($request['codigo'])){
+    // 🔹 Eliminar programa
+    public function deletePrograma($request)
+    {
+        if (empty($request['codigo'])) {
             return false;
         }
-        $estudiante = new Estudiante();
-        $estudiante->set('codigo', $request['codigo']);
-        return $estudiante->delete();
+
+        $programa = new Programa();
+        $programa->set('codigo', $request['codigo']);
+        return $programa->delete();
     }
 
-    public function updateEstudiante($request){
-        if (
-            empty($request['codigo'])
-            || empty($request['nombre'])
-            || empty($request['email'])
-            || empty($request['programa']) 
-        ){
+    // 🔹 Actualizar programa
+    public function updatePrograma($request)
+    {
+        if (empty($request['codigo']) || empty($request['nombre'])) {
             return false;
         }
-        $estudiante = new Estudiante();
-        $estudiante->set('codigo', $request['codigo']);
-        $estudiante->set('nombre', $request['nombre']);
-        $estudiante->set('email', $request['email']);
-        $estudiante->set('programa', $request['programa']);
-        return $estudiante->update();
+
+        $programa = new Programa();
+        $programa->set('codigo', $request['codigo']);
+        $programa->set('nombre', $request['nombre']);
+        return $programa->update();
     }
 }

@@ -1,12 +1,25 @@
-<h2>Editar Programa</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Programa</title>
+</head>
+<body>
+    <h2>Editar Programa</h2>
 
-<form method="POST" action="index.php?controller=programa&action=editar&codigo=<?= $programa['codigo'] ?>">
-    <label for="codigo">Código:</label><br>
-    <input type="text" id="codigo" name="codigo" value="<?= $programa['codigo'] ?>" readonly><br><br>
+    <?php if (empty($programa)): ?>
+        <p>No se encontró el programa.</p>
+    <?php else: ?>
+        <form action="/monolitico/controllers/programa-controller.php?action=editar&codigo=<?= urlencode($programa['codigo']) ?>" method="POST">
+            <label>Código:</label><br>
+            <input type="text" value="<?= htmlspecialchars($programa['codigo']) ?>" disabled><br><br>
 
-    <label for="nombre">Nombre:</label><br>
-    <input type="text" id="nombre" name="nombre" value="<?= $programa['nombre'] ?>" maxlength="30" required><br><br>
+            <label>Nombre:</label><br>
+            <input type="text" name="nombre" value="<?= htmlspecialchars($programa['nombre']) ?>" maxlength="50" required><br><br>
 
-    <button type="submit">Actualizar</button>
-    <a href="index.php?controller=programa&action=listar">Cancelar</a>
-</form>
+            <button type="submit">Actualizar</button>
+            <a href="/monolitico/controllers/programa-controller.php?action=listar">Cancelar</a>
+        </form>
+    <?php endif; ?>
+</body>
+</html>

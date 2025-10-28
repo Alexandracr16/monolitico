@@ -1,48 +1,63 @@
 <?php
-require_once 'models/programas.php';
+require_once __DIR__ . '/../models/programas.php';
 
-class ProgramaController {
+$action = $_GET['action'] ?? 'listar';
+$model = new ProgramaModel();
 
-    public function listar() {
-        $modelo = new Programa();
-        $resultado = $modelo->listar();
-        include 'views/programas/listar.php';
-    }
+switch ($action) {
+    //programas
+    case 'listar':
+        $result = $model->listar();
+        include __DIR__ . '/../views/programas/listar.php';
+        break;
 
-    public function crear() {
+    // formulario para crear
+    case 'crear':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $codigo = $_POST['codigo'];
             $nombre = $_POST['nombre'];
+            $model->crear($codigo, $nombre);
 
-            $modelo = new Programa();
-            $modelo->crear($codigo, $nombre);
-            header("Location: index.php?controller=programa&action=listar");
+            header("Location: programa-controller.php?action=listar");
+            exit;
         } else {
-            include 'views/programas/crear.php';
+            include __DIR__ . '/../views/programas/crear.php';
         }
-    }
+        break;
 
-    public function editar() {
-        $modelo = new Programa();
+    //formulario para editar
+    case 'editar':
         $codigo = $_GET['codigo'] ?? null;
+        if (!$codigo) {
+            die("Código no especificado");
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre = $_POST['nombre'];
-            $modelo->editar($codigo, $nombre);
-            header("Location: index.php?controller=programa&action=listar");
-        } else {
-            $programa = $modelo->buscar($codigo);
-            include 'views/programas/editar.php';
-        }
-    }
+            $model->editar($codigo, $nombre);
 
-    public function eliminar() {
-        $modelo = new Programa();
+            header("Location: programa-controller.php?action=listar");
+            exit;
+        } else {
+            $programa = $model->buscar($codigo);
+            include __DIR__ . '/../views/programas/editar.php';
+        }
+        break;
+
+    // Eliminar programa
+    case 'eliminar':
         $codigo = $_GET['codigo'] ?? null;
         if ($codigo) {
-            $modelo->eliminar($codigo);
+            $model->eliminar($codigo);
         }
-        header("Location: index.php?controller=programa&action=listar");
-    }
-}
 
+        
+        header("Location: programa-controller.php?action=listar");
+        exit;
+        break;
+
+    
+    default:
+        echo "Acción no válida.";
+        break;
+}
