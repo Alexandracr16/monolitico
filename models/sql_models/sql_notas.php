@@ -15,14 +15,22 @@ class SqlNotas{
 
     public static function update(){
         $sql = "update notas set ";
-        $sql.= "actividad=?";
         $sql.= "nota=?" ;
-        $sql.= "where estudiante=? and materia =?";
+        $sql.= "WHERE materia=? AND estudiante =? AND actividad =?";
         return $sql;
     }
 
     public static function delete(){
-        $sql = "delete from notas where estudiante=? and materia=?";
+        $sql = "delete from notas WHERE materia=? AND estudiante=? AND actividad=?";
         return $sql;
+    }
+
+    public static function selectByEstudiante(){
+        $sql = "select * from notas where estudiante=?";
+        return $sql;
+    }
+
+    public static function promedio(){
+        return "select ifnull(ROUND(AVG(nota),2),0) as promedio from notas where estudiante=? AND materia=? ";
     }
 }

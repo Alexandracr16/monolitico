@@ -12,7 +12,7 @@ use App\Models\Databases\notasAppBD ;
 
 class Notas extends Model
 {
-    private $materia=0;
+    private $materia=null;
     private $estudiante=null;
     private $actividad = null;
     private $nota = null;
@@ -30,7 +30,7 @@ class Notas extends Model
         $db= new notasAppBD();
         $result= $db->execSQL($sql, true);
         $notas= [];
-        if ($result->num_rows>0){
+        if ($result&& $result-> num_rows>0){
             while($row = $result->fetch_assoc()){
                 $nota= new Notas();
                 $nota-> set('materia', $row["materia"]);
@@ -51,21 +51,57 @@ class Notas extends Model
         $result = $db->execSQL(
             $sql,
             false,
-            "s",
-            $this->nota
+            "sss",
+            $this->materia,
+            $this->estudiante,
+            $this->actividad
         );
+
         $db->close();
         return $result;
     }
 
     public function find(){}
-    public function insert(){
+
+    public function findByEstudiante($codigo)
+    {
+        $sql = SqlNotas::selectByEstudiante();
+        $db = new notasAppBD();
+        $result = $db->execSQL(
+            $sql,
+            true,
+            "s",
+            $codigo
+        );
+        $notas= [];
+        if ($result&& $result-> num_rows>0){
+            while($row = $result->fetch_assoc()){
+                $nota= new Notas();
+                $nota-> set('materia', $row["materia"]);
+                $nota->set('actividad', $row["actividad"]);
+                $nota->set('nota', $row["nota"]);
+                array_push($notas, $nota);
+
+            }
+        }
+        $db->close();
+        return $notas;
+    }
+    public function insert()
+    {   if ($this->nota <=0||$this->nota >5){
+            return ["Error: La nota debe estar entre 0 y 5"];
+        }
+
+        if (round($this->nota,2) != $this->nota){
+            return ["Error: La nota debe tener máximo dos decimales"];
+        }
+
         $sql = SqlNotas::insertInto();
         $db = new notasAppBD();
         $result = $db->execSQL(
             $sql,
             false,
-            "sssi",
+            "sssd",
             $this->materia,
             $this->estudiante,
             $this->actividad,
@@ -75,17 +111,45 @@ class Notas extends Model
         $db->close();
         return $result;
     }
-    public function update(){
+    public function update()
+    {
+        if ($this->nota <=0||$this->nota >5){
+            return ["Error: La nota debe estar entre 0 y 5"];
+        }
         $sql = SqlNotas::update();
         $db = new notasAppBD();
         $result = $db->execSQL(
             $sql,
             false,
-            "s",
-            $this->nota
+            "dsss",
+            $this->nota,
+            $this->materia,
+            $this->estudiante,
+            $this->actividad
             
         );
         $db->close();
         return $result;
     }
+
+    public function promedio($estudiante, $materia)
+    {
+        $sql = SqlNotas::promedio();
+        $db = new notasAppBD();
+        $result = $db->execSQL(
+            $sql,
+            true,
+            "ss",
+            $estudiante,
+            $materia
+        );
+        $promedio = 0;
+        if ($result && $row = $result->fetch_assoc()) {
+            $prom = $row["promedio"];
+        }
+        $db->close();
+        return $prom;
+    }
+    
+    
 }
