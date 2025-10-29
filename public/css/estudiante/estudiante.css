@@ -1,9 +1,18 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   background-color: #f8f9fa;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* separación entre los botones */
 }
 
 h1 {
@@ -19,11 +28,13 @@ h1 {
   padding: 10px 20px;
   text-decoration: none;
   border-radius: 5px;
-  margin-bottom: 20px;
+  transition: all 0.3s ease;
 }
 
 .crear-enlace:hover {
-  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(90deg, #3498db, #e74c3c);
 }
 
 table {
@@ -63,13 +74,18 @@ tr:hover {
   opacity: 0.7;
 }
 
-.btn-accion img {
-  width: 20px;
-  height: 20px;
+.volver {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #ecf0f1;
+  color: #e74c3c;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.sin-registros {
-  text-align: center;
-  color: #7f8c8d;
-  padding: 20px;
+.volver:hover {
+  background: #d5dbdb;
+  transform: translateY(-2px);
 }

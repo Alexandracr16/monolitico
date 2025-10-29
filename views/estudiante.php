@@ -1,5 +1,5 @@
 <?php
-require __DIR__."/../controllers/estudiante-controllers.php";
+require __DIR__ . "/../controllers/estudiante-controllers.php";
 
 use App\Controllers\EstudianteController;
 
@@ -9,6 +9,7 @@ $estudiante = $estudianteController->queryAllEstudiante();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,13 +17,10 @@ $estudiante = $estudianteController->queryAllEstudiante();
     <link rel="stylesheet" href="../public/css//estudiante/estudiante.css">
     <link rel="stylesheet" href="../public/css/estudiante/modals.css">
 </head>
+
 <body>
-   <h1>Lista de estudiantes</h1>
-    
-    <a href="estudiante-form.php" class="crear-enlace">Crear Estudiante</a>
-    
-    <br><br>
-    
+    <h1>Lista de estudiantes</h1>
+
     <table>
         <thead>
             <tr>
@@ -37,21 +35,21 @@ $estudiante = $estudianteController->queryAllEstudiante();
             <?php
             foreach ($estudiante as $est) {
                 echo "<tr>";
-                echo "<td>".$est->get('codigo')."</td>";
-                echo "<td>".$est->get('nombre')."</td>";
-                echo "<td>".$est->get('email')."</td>";
-                echo "<td>".$est->get('programa')."</td>";
+                echo "<td>" . $est->get('codigo') . "</td>";
+                echo "<td>" . $est->get('nombre') . "</td>";
+                echo "<td>" . $est->get('email') . "</td>";
+                echo "<td>" . $est->get('programa') . "</td>";
                 echo "<td>";
-                echo '     <button class="btn-accion" onclick="onClickBorrar(' .$est->get('codigo'). ')">';
+                echo '     <button class="btn-accion" onclick="onClickBorrar(' . $est->get('codigo') . ')">';
                 echo '      <img src="../public/res/borrar.svg" alt="Borrar">';
                 echo "     </button>";
-                echo '     <a class="btn-accion" href="editar-eform.php?codigo=' .$est->get('codigo'). '">';
+                echo '     <a class="btn-accion" href="editar-eform.php?codigo=' . $est->get('codigo') . '">';
                 echo '      <img src="../public/res/editar.svg" alt="Editar">';
                 echo "     </a>";
                 echo "</td>";
                 echo "</tr>";
             }
-            if (count($estudiante) == 0){
+            if (count($estudiante) == 0) {
                 echo "<tr>";
                 echo "<td colspan='5' class='sin-registros'>No hay estudiantes registrados</td>";
                 echo "</tr>";
@@ -68,13 +66,19 @@ $estudiante = $estudianteController->queryAllEstudiante();
             <div>
                 <button type="submit">Continuar</button>
                 <button type="reset">Cancelar</button>
-            </div>  
+            </div>
         </form>
-    </div>   
-    
+    </div>
+
     <script src="../public/js/estudiante.js"></script>
+    <br>
+    <div class="acciones">
+        <a href="principal.php" class="volver">Volver al menú</a>
+        <a href="estudiante-form.php" class="crear-enlace">Crear Estudiante</a>
+    </div>
 
-    <br><a href="principal.php" class="crear-enlace">Volver al menu</a>
 
-</body>        
+
+</body>
+
 </html>

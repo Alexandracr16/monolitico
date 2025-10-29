@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Programa</title>
+    <link rel="stylesheet" href="../public/css/programa/r.css">
 </head>
 <body>
     <h2>Editar Programa</h2>
 
     <?php if (empty($programa)): ?>
-        <p>No se encontró el programa.</p>
+        <div class="mensaje-error">
+            <p>No se encontró el programa.</p>
+        </div>
     <?php else: ?>
         <form action="/monolitico/controllers/programa-controller.php?action=editar&codigo=<?= urlencode($programa['codigo']) ?>" method="POST">
-            <label>Código:</label><br>
-            <input type="text" value="<?= htmlspecialchars($programa['codigo']) ?>" disabled><br><br>
+            <label>Código:</label>
+            <input type="text" value="<?= htmlspecialchars($programa['codigo']) ?>" disabled>
 
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" value="<?= htmlspecialchars($programa['nombre']) ?>" maxlength="50" required><br><br>
+            <label>Nombre:</label>
+            <input type="text" name="nombre" value="<?= htmlspecialchars($programa['nombre']) ?>" maxlength="50" required>
 
             <button type="submit">Actualizar</button>
-            <a href="/monolitico/controllers/programa-controller.php?action=listar">Cancelar</a>
         </form>
+        
+        <a href="/monolitico/controllers/programa-controller.php?action=listar" class="cancelar">Cancelar</a>
     <?php endif; ?>
 </body>
 </html>
