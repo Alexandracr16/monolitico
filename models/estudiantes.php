@@ -60,6 +60,7 @@ class Estudiante extends Model{
 
     public function find(){
     }
+    
     public function insert(){
         $sql = SqlEstudiantes::insertInto();
         $db = new notasAppBD();
