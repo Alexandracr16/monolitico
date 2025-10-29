@@ -8,7 +8,7 @@ class SqlNotas{
     }
 
     public static function insertInto(){
-        $sql = "insert into notas(estudiantes, materia, actividad, notas)values";
+        $sql = "insert into notas(estudiante, materia, actividad, nota)values";
         $sql .= "(?,?,?,?)";
         return $sql; 
     }
@@ -26,11 +26,11 @@ class SqlNotas{
     }
 
     public static function selectByEstudiante(){
-        $sql = "select * from notas where estudiante=?";
+        $sql = "select * from notas where estudiantes=?";
         return $sql;
     }
 
     public static function promedio(){
-        return "select ifnull(ROUND(AVG(nota),2),0) as promedio from notas where estudiante=? AND materia=? ";
+        return "select ifnull(ROUND(AVG(nota),2),0) as promedio from notas where estudiantes=? AND materia=? ";
     }
 }

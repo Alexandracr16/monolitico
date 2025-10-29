@@ -36,7 +36,8 @@ class Notas_controllers
 
     public function deleteNotas($request){
         if (empty($request['estudiante'])||
-        empty($request['materia'])
+        empty($request['materia'])||
+         empty($request['actividad'])
         ){
             return false;
         }
@@ -45,6 +46,7 @@ class Notas_controllers
         $notas = new Notas();
         $notas->set('estudiante', $request['estudiante']);
         $notas->set('materia', $request['materia']);
+         $notas->set('actividad', $request['actividad']);
         return $notas->delete();
     }
 
@@ -67,7 +69,7 @@ class Notas_controllers
         $notas->set('estudiante', $request['estudiante']);
         $notas->set('materia', $request['materia']);
         $notas->set('actividad', $request['actividad']);
-        $notas->set('notas', round($notaValor,2));
+        $notas->set('nota', round($notaValor,2));
         return $notas->update();
     }
 

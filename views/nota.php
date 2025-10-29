@@ -1,78 +1,50 @@
 <?php
-require __DIR__ . "/../controllers/notas-controllers.php";
-
+require_once __DIR__ . "/../controllers/notas-controllers.php";
 use App\Controllers\Notas_controllers;
 
 $controller = new Notas_controllers();
 $notas = $controller->queryAllNotas();
 ?>
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Notas</title>
-</head>
+<head><meta charset="utf-8"><title>Notas debug</title></head>
 <body>
-    <h1>Gestión de Notas</h1>
+  <h1>Notas</h1>
 
-    <h3>Registrar notas</h3>
-    <form action="../index.php?action=guardar" method="POST">
-        <label>Estudiante: </label>
-        <input type="text" name="estudiante" required>
+  <!-- Formulario: Nombres exactos: estudiante, materia, actividad, nota -->
+  <form action="../index.php?action=guardar" method="POST">
+    <label>Estudiante: <input type="text" name="estudiante" value="" required></label><br>
+    <label>Materia:    <input type="text" name="materia"    value="" required></label><br>
+    <label>Actividad:  <input type="text" name="actividad"  value="" required></label><br>
+    <label>Nota:       <input type="number" name="nota" min="0" max="5" step="0.01" value="3.00" required></label><br>
+    <button type="submit">Guardar</button>
+  </form>
 
-        <label>Materia: </label>
-        <input type="text" name="materia" required>
+  <hr>
 
-        <label>Actividad: </label>
-        <input type="text" name="actividad" required>
+  <h3>Lista</h3>
+  <table border="1" cellpadding="6">
+    <thead><tr><th>Estudiante</th><th>Materia</th><th>Actividad</th><th>Nota</th><th>Acciones</th></tr></thead>
+    <tbody>
+      <?php if (!empty($notas)): foreach ($notas as $n): ?>
+        <tr>
+          <td><?=htmlspecialchars($n->get('estudiante'))?></td>
+          <td><?=htmlspecialchars($n->get('materia'))?></td>
+          <td><?=htmlspecialchars($n->get('actividad'))?></td>
+          <td><?=htmlspecialchars($n->get('nota'))?></td>
+          <td>
+            <!-- enlaces en UNA LINEA, sin saltos de línea -->
+            <a href="../index.php?action=editar&estudiante=<?=urlencode($n->get('estudiante'))?>&materia=<?=urlencode($n->get('materia'))?>&actividad=<?=urlencode($n->get('actividad'))?>&nota=<?=urlencode($n->get('nota'))?>">Editar</a>
+            |
+            <a href="../index.php?action=eliminar&estudiante=<?=urlencode($n->get('estudiante'))?>&materia=<?=urlencode($n->get('materia'))?>&actividad=<?=urlencode($n->get('actividad'))?>" onclick="return confirm('Eliminar?')">Eliminar</a>
+          </td>
+        </tr>
+      <?php endforeach; else: ?>
+        <tr><td colspan="5">No hay notas</td></tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
 
-        <label>Nota: </label>
-        <input type="number" name="nota" min="0" max="5" step="0.1" required>
-
-        <button type="submit">Guardar</button>
-    </form>
-
-    <hr>
-
-    <h3>Lista de notas</h3>
-    <table border="1" cellpadding="5">
-        <thead>
-            <tr>
-                <th>Estudiante</th>
-                <th>Materia</th>
-                <th>Actividad</th>
-                <th>Nota</th>
-                <th>Acciones</th> 
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($notas)): ?>
-                <?php foreach ($notas as $nota): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($nota->get('estudiante')) ?></td>
-                        <td><?= htmlspecialchars($nota->get('materia')) ?></td>
-                        <td><?= htmlspecialchars($nota->get('actividad')) ?></td>
-                        <td><?= htmlspecialchars($nota->get('nota')) ?></td>
-                        <td>
-                            <a href="../index.php?action=editar&estudiante=<?=urlencode($nota->get('estudiante'))?>&materia=<?=urlencode($nota->get('materia'))?>&actividad=<?=urlencode($nota->get('actividad'))?>&nota=<?=urlencode($nota->get('nota'))?>
-                            ">Editar</a>
-                            |
-                            <a href="../index.php?action=eliminar&estudiante=<?=urlencode($nota->get('estudiante'))?>&materia=<?=urlencode($nota->get('materia'))?>
-                            ">Eliminar</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5">No hay notas registradas.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-
-    <br>
-    <a href="principal.php">Volver al menú</a>
+  <p><a href="principal.php">Volver</a></p>
 </body>
 </html>
