@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar form</title>
-    <link rel="stylesheet" href="../public/css/estudiante/creacionEstudiante.css">
+    <link rel="stylesheet" href="../public/css/estudiante/estudiante.css">
 </head>
-
 <body>
+    <?php
+    require __DIR__ . "/../controllers/estudiante-controllers.php";
+
+    use App\Controllers\EstudianteController;
+
+    if (!empty($_GET['codigo'])) {
+        $estudianteController = new EstudianteController();
+        if ($estudianteController->hasNotas($_GET['codigo'])) {
+            echo "<h1>No se puede editar el estudiante porque tiene notas registradas</h1>";
+            echo "<br>";
+            echo "<a href='estudiante.php' class='volver'> Volver a la lista de estudiantes</a>";
+            exit;
+        }
+    }
+    ?>
     <div class="contenedor">
         <h1>Editar Estudiante</h1>
-        
+
         <form action="operaciones/editar-estudiante.php" method="post">
             <?php
             if (!empty($_GET['codigo'])) {
@@ -35,7 +48,7 @@
             </div>
         </form>
     </div>
-    
+
     <a href="estudiante.php" class="volver">← Volver a la lista de estudiantes</a>
 </body>
 

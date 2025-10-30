@@ -1,30 +1,38 @@
-<?php
-require __DIR__ . "/../../controllers/estudiante-controllers.php";
-
-use App\Controllers\EstudianteController;
-
-$estudianteController = new EstudianteController();
-
-$id = empty ($_POST['codigo']) ?
-"":
-$_POST['codigo'];
-
-$result = $estudianteController -> deleteEstudiante(['codigo'=> $id]);//Dentro del metodo delete se pasa una array asociativo como argumento para que lo borre
-
-if ($result){ //dependiedo si se realizo o no la eliminacion entrara en el if 
-    header('Location: ../estudiante.php');
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error</title>
+    <title>Eliminar estudiante</title>
+    <link rel="stylesheet" href="../../public/css/estudiante/estudiante.css">
 </head>
+
 <body>
-    <h1>Error eliminando los malparidos datos<h1>
-    <br>
-    <a href = "../estudiante-form.php">Volver</a>
+    <?php
+    require __DIR__ . "/../../controllers/estudiante-controllers.php";
+
+    use App\Controllers\EstudianteController;
+
+    $estudianteController = new EstudianteController();
+
+    $id = empty($_POST['codigo']) ? "" : $_POST['codigo'];
+
+    if ($id && $estudianteController->hasNotas($id)) {
+    ?>
+        <h1>No se puede eliminar el estudiante porque tiene notas registradas</h1>
+        <br>
+        <a href="../estudiante.php" class="volver"> ← Volver a la lista de estudiantes</a>
+    <?php
+        exit;
+    }
+
+    $result = $estudianteController->deleteEstudiante(['codigo' => $id]);
+    if ($result) {
+        header('Location: ../estudiante.php');
+        exit;
+    }
+    ?>
 </body>
+
 </html>

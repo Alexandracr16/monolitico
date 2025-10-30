@@ -48,10 +48,17 @@ class EstudianteController
          return false;
       }
       $estudiante = new Estudiante();
-      $estudiante->set('nombre',$request['nombre']);
+      $estudiante->set('nombre', $request['nombre']);
       $estudiante->set('email', $request['email']);
       $estudiante->set('programa', $request['programa']);
       $estudiante->set('codigo', $request['codigo']);
       return $estudiante->update();
+   }
+
+   public function hasNotas($codigo)
+   {
+      $estudiante = new Estudiante();
+      $estudiante->set('codigo', $codigo);
+      return $estudiante->checkNotas(); // Nuevo método a crear
    }
 }

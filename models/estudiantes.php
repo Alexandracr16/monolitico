@@ -1,27 +1,31 @@
 <?php
+
 namespace App\Models;
 
-require_once __DIR__."/sql_models/sql_estudiantes.php";
-require_once __DIR__."/sql_models/model.php";
-require_once __DIR__."/databases/notas_app-db.php";
+require __DIR__ . "/sql_models/sql_estudiantes.php";
+require __DIR__ . "/sql_models/model.php";
+require __DIR__ . "/databases/notas_app-db.php";
 
 use App\Models\SQLModels\Model;
 use App\Models\SQLModels\SqlEstudiantes;
-use App\Models\Databases\notasAppBD ;
+use App\Models\Databases\notasAppBD;
 
-class Estudiante extends Model{
+class Estudiante extends Model
+{
 
     private $codigo = null;
     private $nombre = null;
     private $email = null;
     private $programa = null;
 
-    public function get ($prop){
+    public function get($prop)
+    {
         return $this->{$prop};
     }
 
-    public function set ($prop, $value){
-         $this->{$prop} = $value; 
+    public function set($prop, $value)
+    {
+        $this->{$prop} = $value;
     }
 
     public function all()
@@ -44,7 +48,7 @@ class Estudiante extends Model{
         return $estudiantes;
     }
 
-   public function delete()
+    public function delete()
     {
         $sql = SqlEstudiantes::delete();
         $db = new notasAppBD();
@@ -58,14 +62,13 @@ class Estudiante extends Model{
         return $result;
     }
 
-    public function find(){
-    }
-    
-    public function insert(){
+    public function find() {}
+    public function insert()
+    {
         $sql = SqlEstudiantes::insertInto();
         $db = new notasAppBD();
         $result = $db->execSQL(
-           $sql,
+            $sql,
             false,
             "ssss",
             $this->codigo,
@@ -76,8 +79,8 @@ class Estudiante extends Model{
         $db->close();
         return $result;
     }
-    
-    public function update(){
+
+    /*     public function update(){
         $sql = SqlEstudiantes::update();
         $db = new notasAppBD();
         $result = $db->execSQL(
@@ -92,5 +95,61 @@ class Estudiante extends Model{
         $db->close();
         return $result;
     }
-}
+ */
+    public function update()
+    {
+        $sql = SqlEstudiantes::hasNotas();
+        $db = new notasAppBD();
+        $result = $db->execSQL(
+            $sql,
+            true,
+            "s",
+            $this->codigo
+        );
+        if ($result) {
+            $row = $result->fetch_assoc();
 
+            // Si tiene notas, no permitimos la actualización
+            if ($row['total'] > 0) {
+                $db->close();
+                return false;
+            }
+
+            // Si no tiene notas, procedemos con la actualización
+            $sql = SqlEstudiantes::update();
+            $result = $db->execSQL(
+                $sql,
+                false,
+                "ssss",
+                $this->nombre,
+                $this->email,
+                $this->programa,
+                $this->codigo
+            );
+        }
+
+        $db->close();
+        return $result;
+    }
+
+    public function checkNotas()
+    {
+        $sql = SqlEstudiantes::hasNotas();
+        $db = new notasAppBD();
+        $result = $db->execSQL(
+            $sql,
+            true,
+            "s",
+            $this->codigo
+        );
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $db->close();
+            return $row['total'] > 0;
+        }
+
+        $db->close();
+        return false;
+    }
+}

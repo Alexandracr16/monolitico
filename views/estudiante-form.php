@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estudiante form</title>
     <link rel="stylesheet" href="../public/css/estudiante/creacionEstudiante.css">
-
 </head>
 
 <body>
