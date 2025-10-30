@@ -25,8 +25,8 @@
     
     <div class="contenedor-enlaces">
         <a href="estudiante.php" class="enlace-navegacion"><span>Estudiante</span></a>
-        <a href="materia.php" class="enlace-navegacion"><span>Materias</span></a>
         <a href="nota.php" class="enlace-navegacion"><span>Notas</span></a>
+        <a href="/monolitico/controllers/materia-controller.php?action=listar">Materias</a><br>
         <a href="/monolitico/controllers/programa-controller.php?action=listar" class="enlace-navegacion"><span>Programas</span></a>
     </div>
     
