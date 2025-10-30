@@ -7,11 +7,13 @@
 </head>
 <body>
     <h1>
-        Gestion Universidad Yiovany , Jessy and Deivid :p
+        Bienvenido a la Aplicación que cuenta el amor 
+        que se tiene por la programación como el amor que se tiene 
+        David y jessy  una pareja hermosa, divina y perfecta. 
     </h1>
     <a href= "estudiante.php" >Estudiante</a><br>
-    <a href= "materia.php" >Materias</a><br>
     <a href= "nota.php" >Notas</a><br>
+    <a href="/monolitico/controllers/materia-controller.php?action=listar">Materias</a><br>
     <a href="/monolitico/controllers/programa-controller.php?action=listar">Programas</a>
 
 </body>

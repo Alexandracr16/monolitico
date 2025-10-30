@@ -5,7 +5,7 @@
     <title>Programas</title>
 </head>
 <body>
-    <h2>Lista de programas</h2>
+    <h2>Tabla de programas</h2>
     <table border="1" cellpadding="6" cellspacing="0">
         <tr>
             <th>Código</th>
@@ -29,10 +29,11 @@
             <tr><td colspan="3">No hay programas registrados.</td></tr>
         <?php endif; ?>
     </table>
-         <a href="/monolitico/views/principal.php">Volver al menu</a> 
-         <br>
-         <br>
+    <br>
          <a href="/monolitico/controllers/programa-controller.php?action=crear">Nuevo Programa</a>
+         <br>
+         <br>
+         <a href="/monolitico/views/principal.php">Volver al menu</a> 
     <br><br>
 </body>
 </html>

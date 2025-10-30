@@ -1,63 +1,92 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../models/programas.php';
 
-$action = $_GET['action'] ?? 'listar';
-$model = new ProgramaModel();
+class ProgramaController
+{
+    private $model;
 
-switch ($action) {
-    //programas
-    case 'listar':
-        $result = $model->listar();
+    public function __construct()
+    {
+        $this->model = new Programa(); 
+    }
+
+    //Listar programas
+    public function listar()
+    {
+        $result = $this->model->listar();
         include __DIR__ . '/../views/programas/listar.php';
-        break;
+    }
 
-    // formulario para crear
-    case 'crear':
+    //Crear nuevo programa
+    public function crear()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $codigo = $_POST['codigo'];
-            $nombre = $_POST['nombre'];
-            $model->crear($codigo, $nombre);
+            $codigo = trim($_POST['codigo'] ?? '');
+            $nombre = trim($_POST['nombre'] ?? '');
 
-            header("Location: programa-controller.php?action=listar");
-            exit;
+            if ($codigo === '' || $nombre === '') {
+                die('Faltan datos');
+            }
+
+            $ok = $this->model->crear($codigo, $nombre);
+
+            if ($ok) {
+                header('Location: /monolitico/controllers/programa-controller.php?action=listar');
+                exit;
+            } else {
+                die('Mire que el codigo ya existe');
+            }
         } else {
             include __DIR__ . '/../views/programas/crear.php';
         }
-        break;
+    }
 
-    //formulario para editar
-    case 'editar':
+    // Editar programa 
+    public function editar()
+    {
         $codigo = $_GET['codigo'] ?? null;
-        if (!$codigo) {
-            die("Código no especificado");
-        }
+        if (!$codigo) die('Código');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombre = $_POST['nombre'];
-            $model->editar($codigo, $nombre);
+            $nombre = trim($_POST['nombre'] ?? '');
 
-            header("Location: programa-controller.php?action=listar");
-            exit;
+            if ($nombre === '') die('nombre');
+
+            $ok = $this->model->editar($codigo, $nombre);
+
+            if ($ok) {
+                header('Location: /monolitico/controllers/programa-controller.php?action=listar');
+                exit;
+            } else {
+                die('No guarda cambios');
+            }
         } else {
-            $programa = $model->buscar($codigo);
+            $programa = $this->model->buscar($codigo);
             include __DIR__ . '/../views/programas/editar.php';
         }
-        break;
+    }
 
-    // Eliminar programa
-    case 'eliminar':
+    //Eliminar programa
+    public function eliminar()
+    {
         $codigo = $_GET['codigo'] ?? null;
         if ($codigo) {
-            $model->eliminar($codigo);
+            $this->model->eliminar($codigo);
         }
-
-        
-        header("Location: programa-controller.php?action=listar");
+        header('Location: /monolitico/controllers/programa-controller.php?action=listar');
         exit;
-        break;
+    }
+}
 
-    
-    default:
-        echo "Acción no válida.";
-        break;
+// lista
+$action = $_GET['action'] ?? 'listar';
+$controller = new ProgramaController();
+
+if (method_exists($controller, $action)) {
+    $controller->$action();
+} else {
+    echo "..";
 }

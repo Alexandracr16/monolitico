@@ -18,6 +18,8 @@
             <input type="text" name="nombre" value="<?= htmlspecialchars($programa['nombre']) ?>" maxlength="50" required><br><br>
 
             <button type="submit">Actualizar</button>
+            <br>
+            <br>
             <a href="/monolitico/controllers/programa-controller.php?action=listar">Cancelar</a>
         </form>
     <?php endif; ?>

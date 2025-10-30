@@ -1,61 +1,94 @@
 <?php
-require_once 'models/materias.php';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-class MateriaController {
+require_once __DIR__ . '/../models/materias.php';
+require_once __DIR__ . '/../models/programas.php';
 
-    // lista de materias
-    public function listar() {
-        $modelo = new Materia();
-        $resultado = $modelo->listar();
-        include 'views/materias/listar.php';
+class MateriaController
+{
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new Materia();
     }
 
-    // 🔹 nueva materia
-    public function crear() {
-        $modelo = new Materia();
+    public function listar()
+    {
+        $result = $this->model->listar();
+        include __DIR__ . '/../views/materias/listar.php';
+    }
+
+    public function crear()
+    {
+        $programaModel = new Programa();
+        $programas = $programaModel->listar();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $codigo = $_POST['codigo'];
-            $nombre = $_POST['nombre'];
-            $programa = $_POST['programa'];
+            $codigo = trim($_POST['codigo'] ?? '');
+            $nombre = trim($_POST['nombre'] ?? '');
+            $programa = trim($_POST['programa'] ?? '');
 
-            if (!empty($codigo) && !empty($nombre) && !empty($programa)) {
-                $modelo->crear($codigo, $nombre, $programa);
+            if ($codigo === '' || $nombre === '' || $programa === '') {
+                die('Completar los datos');
             }
-            header("Location: index.php?controller=materia&action=listar");
+
+            $ok = $this->model->crear($codigo, $nombre, $programa);
+
+            if ($ok) {
+                header('Location: /monolitico/controllers/materia-controller.php?action=listar');
+                exit;
+            } else {
+                die('El codigo ya existe');
+            }
         } else {
-            // Obtener lista de programas para el select
-            $programas = $modelo->obtenerProgramas();
-            include 'views/materias/crear.php';
+            include __DIR__ . '/../views/materias/crear.php';
         }
     }
 
-    // Editar materia
-    public function editar() {
-        $modelo = new Materia();
+    public function editar()
+    {
+        $programaModel = new Programa();
+        $programas = $programaModel->listar();
+
         $codigo = $_GET['codigo'] ?? null;
+        if (!$codigo) die('El codigo no existe');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombre = $_POST['nombre'];
-            $programa = $_POST['programa'];
-            $modelo->editar($codigo, $nombre, $programa);
-            header("Location: index.php?controller=materia&action=listar");
+            $nombre = trim($_POST['nombre'] ?? '');
+            $programa = trim($_POST['programa'] ?? '');
+
+            if ($nombre === '' || $programa === '') die('Complatar los datos');
+
+            $ok = $this->model->editar($codigo, $nombre, $programa);
+
+            if ($ok) {
+                header('Location: /monolitico/controllers/materia-controller.php?action=listar');
+                exit;
+            } else {
+                die('Editar la materia3');
+            }
         } else {
-            $materia = $modelo->buscar($codigo);
-            $programas = $modelo->obtenerProgramas();
-            include 'views/materias/editar.php';
+            $materia = $this->model->buscar($codigo);
+            include __DIR__ . '/../views/materias/editar.php';
         }
     }
 
-    // Eliminar materia
-    public function eliminar() {
+    public function eliminar()
+    {
         $codigo = $_GET['codigo'] ?? null;
-
-        if ($codigo) {
-            $modelo = new Materia();
-            $modelo->eliminar($codigo);
-        }
-
-        header("Location: index.php?controller=materia&action=listar");
+        if ($codigo) $this->model->eliminar($codigo);
+        header('Location: /monolitico/controllers/materia-controller.php?action=listar');
+        exit;
     }
+}
+
+$action = $_GET['action'] ?? 'listar';
+$controller = new MateriaController();
+
+if (method_exists($controller, $action)) {
+    $controller->$action();
+} else {
+    echo "LLenar los campos";
 }
