@@ -17,7 +17,7 @@
         <tr>
             <th>Código</th>
             <th>Nombre</th>
-            <th>Acciones</th>
+            <th>Hacer</th>
         </tr>
 
         <?php if ($result && $result->num_rows > 0): ?>
