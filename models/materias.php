@@ -1,9 +1,10 @@
 <?php
+namespace App\Models;
 require_once __DIR__ . '/databases/notas_app-db.php';
 
 use App\Models\Databases\notasAppBD;
 
-class Materia
+class Materia 
 {
     private $db;
 

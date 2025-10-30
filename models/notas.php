@@ -58,7 +58,7 @@ class Notas extends Model
         );
 
         $db->close();
-        return $result;
+        return $result ? $result : "Error al eliminar la nota.";
     }
 
     public function find(){}
@@ -96,6 +96,39 @@ class Notas extends Model
             return ["Error: La nota debe tener máximo dos decimales"];
         }
 
+         $db = new notasAppBD();
+
+        // ✅ Verificar que el estudiante exista
+        $checkEst = $db->execSQL(
+            "SELECT COUNT(*) AS total FROM estudiantes WHERE codigo = ?",
+            true,
+            "s",
+            $this->estudiante
+        );
+
+        if ($checkEst && $row = $checkEst->fetch_assoc()) {
+            if ($row["total"] == 0) {
+                $db->close();
+                return ["Error: El estudiante con código {$this->estudiante} no existe."];
+            }
+        }
+
+        // ✅ Verificar que la materia exista
+        $checkMat = $db->execSQL(
+            "SELECT COUNT(*) AS total FROM materias WHERE codigo = ?",
+            true,
+            "s",
+            $this->materia
+        );
+
+        if ($checkMat && $row = $checkMat->fetch_assoc()) {
+            if ($row["total"] == 0) {
+                $db->close();
+                return ["Error: La materia con código {$this->materia} no existe."];
+            }
+        }
+
+
         $sql = SqlNotas::insertInto();
         $db = new notasAppBD();
         $result = $db->execSQL(
@@ -116,20 +149,24 @@ class Notas extends Model
         if ($this->nota <=0||$this->nota >5){
             return ["Error: La nota debe estar entre 0 y 5"];
         }
+
+        if (!preg_match('/^\d+(\.\d{1,2})?$/', $this->nota)) {
+            return "Error: La nota debe tener máximo dos decimales.";
+        }
         $sql = SqlNotas::update();
         $db = new notasAppBD();
         $result = $db->execSQL(
             $sql,
             false,
             "dsss",
-            $this->nota,
-            $this->materia,
-            $this->estudiante,
-            $this->actividad
+            $this->get('nota'),
+            $this->get('materia'),
+            $this->get('estudiante'),
+            $this->get('actividad')
             
         );
         $db->close();
-        return $result;
+        return $result ? true : "Error al actualizar la nota.";
     }
 
     public function promedio($estudiante, $materia)
@@ -143,12 +180,12 @@ class Notas extends Model
             $estudiante,
             $materia
         );
-        $promedio = 0;
+        $promedio = 0.00;
         if ($result && $row = $result->fetch_assoc()) {
-            $prom = $row["promedio"];
+            $promedio= round($row["promedio"],2);
         }
         $db->close();
-        return $prom;
+        return $promedio;
     }
     
     

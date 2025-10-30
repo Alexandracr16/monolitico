@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../models/materias.php';
 require_once __DIR__ . '/../models/programas.php';
 
+use App\Models\Materia;
 class MateriaController
 {
     private $model;

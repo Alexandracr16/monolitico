@@ -18,12 +18,16 @@ class Notas_controllers
             empty($request['actividad'])||
             empty($request['nota'])
         ){
-            return false;
+            return ["error" => "Todos los campos son obligatorios"];
         }
         // Validate nota que este entre 0 a 5, con maximo de 2 decimales
         $notaValor= floatval($request['nota']);
         if($notaValor < 0 || $notaValor > 5){
-            return false;
+            return ["error" => "La nota debe estar entre 0 y 5"];
+        }
+
+         if (round($notaValor, 2) != $notaValor) {
+            return ["error" => "La nota solo puede tener máximo dos decimales"];
         }
 
         $notas = new Notas();
@@ -62,7 +66,7 @@ class Notas_controllers
 
         $notaValor= floatval($request['nota']);
         if($notaValor < 0 || $notaValor > 5){
-            return false;
+            return ["error" => "La nota debe estar entre 0 y 5"];
         }
 
         $notas = new Notas();
@@ -73,4 +77,24 @@ class Notas_controllers
         return $notas->update();
     }
 
+    public function queryNotasByEstudiante($codigoEstudiante)
+    {
+        if (empty($codigoEstudiante)) {
+            return ["error" => "Debe especificar el código del estudiante"];
+        }
+
+        $notas = new Notas();
+        return $notas->findByEstudiante($codigoEstudiante);
+    }
+
+    // 🔹 6. Calcular promedio de estudiante por materia
+    public function promedioEstudiante($codigoEstudiante, $codigoMateria)
+    {
+        if (empty($codigoEstudiante) || empty($codigoMateria)) {
+            return ["error" => "Faltan parámetros para calcular el promedio"];
+        }
+
+        $notas = new Notas();
+        return $notas->promedio($codigoEstudiante, $codigoMateria);
+    }
 }
