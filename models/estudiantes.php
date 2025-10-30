@@ -28,6 +28,21 @@ class Estudiante extends Model
         $this->{$prop} = $value;
     }
 
+    public function getProgramas()
+    {
+        $sql = "SELECT codigo, nombre FROM programas";
+        $db = new notasAppBD();
+        $result = $db->execSQL($sql, true);
+        $programas = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $programas[] = $row;
+            }
+        }
+        $db->close();
+        return $programas;
+    }
+
     public function all()
     {
         $sql = SqlEstudiantes::selectAll();

@@ -41,7 +41,15 @@
             </div>
             <div class="form-group">
                 <label for="programa">Programa:</label>
-                <input type="text" id="programa" name="programa" required>
+                <select id="programa" name="programa" required>
+                    <option value="">Seleccione un programa</option>
+                    <?php
+                    $programas = $estudianteController->getProgramas();
+                    foreach ($programas as $programa) {
+                        echo '<option value="' . $programa['codigo'] . '">' . $programa['nombre'] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
             <div>
                 <button type="submit">Guardar Cambios</button>

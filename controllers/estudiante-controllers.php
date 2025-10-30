@@ -19,7 +19,20 @@ class EstudianteController
       if (empty($request['codigo'])) {
          return false;
       }
+      // Verificar si el programa existe antes de intentar insertar
       $estudiante = new Estudiante();
+      $programas = $estudiante->getProgramas();
+      $programaExiste = false;
+      foreach ($programas as $prog) {
+         if ($prog['codigo'] === $request['programa']) {
+            $programaExiste = true;
+            break;
+         }
+      }
+      if (!$programaExiste) {
+         return false;
+      }
+      
       $estudiante->set('codigo', $request['codigo']);
       $estudiante->set('nombre', $request['nombre']);
       $estudiante->set('email', $request['email']);
@@ -47,7 +60,20 @@ class EstudianteController
       ) {
          return false;
       }
+      // Verificar si el programa existe antes de intentar actualizar
       $estudiante = new Estudiante();
+      $programas = $estudiante->getProgramas();
+      $programaExiste = false;
+      foreach ($programas as $prog) {
+         if ($prog['codigo'] === $request['programa']) {
+            $programaExiste = true;
+            break;
+         }
+      }
+      if (!$programaExiste) {
+         return false;
+      }
+      
       $estudiante->set('nombre', $request['nombre']);
       $estudiante->set('email', $request['email']);
       $estudiante->set('programa', $request['programa']);
@@ -59,6 +85,12 @@ class EstudianteController
    {
       $estudiante = new Estudiante();
       $estudiante->set('codigo', $codigo);
-      return $estudiante->checkNotas(); // Nuevo método a crear
+      return $estudiante->checkNotas();
+   }
+
+   public function getProgramas()
+   {
+      $estudiante = new Estudiante();
+      return $estudiante->getProgramas();
    }
 }

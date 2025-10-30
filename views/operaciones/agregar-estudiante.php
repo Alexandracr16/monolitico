@@ -18,11 +18,11 @@ if($result){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERROR</title>
+    <title>Error al guardar estudiante</title>
+    <link rel="stylesheet" href="../../public/css/estudiante/estudiante.css">
 </head>
 <body>
-    <h1>Error guardando los malparidos datos<h1>
-    <br>
-    <a href = "../estudiante-form.php">Volver</a>
+    <div class="mensaje-error">Error: El código de programa ingresado no existe. Por favor, ingrese un código de programa válido.</div>
+    <a href="../estudiante-form.php" class="enlace-volver">← Volver al formulario</a>
 </body>
 </html>
