@@ -6,14 +6,9 @@
     <link rel="stylesheet" href="../public/css/programa/r.css">
 </head>
 <body>
-<<<<<<< HEAD
-    <h2>Tabla de programas</h2>
-    <table border="1" cellpadding="6" cellspacing="0">
-=======
     <h2>Lista de programas</h2>
     
     <table>
->>>>>>> f2687d0d310176fc117e453bbf1dd3172333884d
         <tr>
             <th>Código</th>
             <th>Nombre</th>
@@ -40,19 +35,10 @@
             </tr>
         <?php endif; ?>
     </table>
-<<<<<<< HEAD
-    <br>
-         <a href="/monolitico/controllers/programa-controller.php?action=crear">Nuevo Programa</a>
-         <br>
-         <br>
-         <a href="/monolitico/views/principal.php">Volver al menu</a> 
-    <br><br>
-=======
     
     <div class="acciones">
         <a href="/monolitico/views/principal.php" class="volver">Volver al menú</a>
         <a href="/monolitico/controllers/programa-controller.php?action=crear" class="crear-enlace">Nuevo Programa</a>
     </div>
->>>>>>> f2687d0d310176fc117e453bbf1dd3172333884d
 </body>
 </html>
