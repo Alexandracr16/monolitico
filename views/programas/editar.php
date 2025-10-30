@@ -21,12 +21,6 @@
             <input type="text" name="nombre" value="<?= htmlspecialchars($programa['nombre']) ?>" maxlength="50" required>
 
             <button type="submit">Actualizar</button>
-<<<<<<< HEAD
-            <br>
-            <br>
-            <a href="/monolitico/controllers/programa-controller.php?action=listar">Cancelar</a>
-=======
->>>>>>> f2687d0d310176fc117e453bbf1dd3172333884d
         </form>
         
         <a href="/monolitico/controllers/programa-controller.php?action=listar" class="cancelar">Cancelar</a>

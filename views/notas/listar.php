@@ -74,7 +74,7 @@ if (isset($_GET['msg'])) {
         </tbody>
     </table>
     <p>
-        <a href="../principal.php" class="btn volver">⬅ Volver al menú principal</a>
+        <a href="../principal.php" class="btn volver"> Volver al menú principal</a>
     </p>
 </div>
 </body>

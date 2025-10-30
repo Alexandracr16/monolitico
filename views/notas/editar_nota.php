@@ -35,26 +35,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="utf-8">
   <title>Editar Nota</title>
+  <link rel="stylesheet" href="../../public/css/notas/editarn.css">
+
 </head>
 <body>
-  <h1>Editar Nota</h1>
+  <div class="contenedor">
+    <h1>Editar Nota</h1>
 
-  <form method="POST">
-    <input type="hidden" name="estudiante" value="<?= htmlspecialchars($estudiante) ?>">
-    <input type="hidden" name="materia" value="<?= htmlspecialchars($materia) ?>">
-    <input type="hidden" name="actividad" value="<?= htmlspecialchars($actividad) ?>">
+    <form method="POST">
+        <input type="hidden" name="estudiante" value="<?= htmlspecialchars($estudiante) ?>">
+        <input type="hidden" name="materia" value="<?= htmlspecialchars($materia) ?>">
+        <input type="hidden" name="actividad" value="<?= htmlspecialchars($actividad) ?>">
 
-    <p><b>Estudiante:</b> <?= htmlspecialchars($estudiante) ?></p>
-    <p><b>Materia:</b> <?= htmlspecialchars($materia) ?></p>
-    <p><b>Actividad:</b> <?= htmlspecialchars($actividad) ?></p>
+        <p><b>Estudiante:</b> <?= htmlspecialchars($estudiante) ?></p>
+        <p><b>Materia:</b> <?= htmlspecialchars($materia) ?></p>
+        <p><b>Actividad:</b> <?= htmlspecialchars($actividad) ?></p>
 
-    <label>Nueva Nota:
-      <input type="number" name="nota" value="<?= htmlspecialchars($nota) ?>" min="0" max="5" step="0.01" required>
-    </label>
+        <label>Nueva Nota:
+            <input type="number" name="nota" value="<?= htmlspecialchars($nota) ?>" min="0" max="5" step="0.01" required>
+        </label>
 
-    <br><br>
-    <button type="submit">Actualizar</button>
-    <a href="listar.php">Cancelar</a>
-  </form>
+        <button type="submit">Actualizar</button>
+        <a href="listar.php">Cancelar</a>
+    </form>
+  </div>
 </body>
 </html>

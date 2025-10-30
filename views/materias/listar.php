@@ -3,39 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Materias</title>
+    <link rel="stylesheet" href="../public/css/materia/materia.css">
 </head>
 <body>
-    <h2>Tabla de materias</h2>
-    <table border="1" cellpadding="6">
-        <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Programa</th>
-            <th>Hacer</th>
-        </tr>
+        <h2>Tabla de materias</h2>
+        
+        <table>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Programa</th>
+                <th>Acciones</th>
+            </tr>
 
-        <?php if ($result && $result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
+            <?php if ($result && $result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['codigo']) ?></td>
+                        <td><?= htmlspecialchars($row['nombre']) ?></td>
+                        <td><?= htmlspecialchars($row['programa']) ?></td>
+                        <td class="acciones">
+                            <a href="/monolitico/controllers/materia-controller.php?action=editar&codigo=<?= urlencode($row['codigo']) ?>" 
+                             >Editar</a>
+                            <span class="separador">|</span>
+                            <a href="/monolitico/controllers/materia-controller.php?action=eliminar&codigo=<?= urlencode($row['codigo']) ?>"
+                               onclick="return confirm('¿Deseas eliminar esta materia?')" class="btn-eliminar">Eliminar</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
                 <tr>
-                    <td><?= htmlspecialchars($row['codigo']) ?></td>
-                    <td><?= htmlspecialchars($row['nombre']) ?></td>
-                    <td><?= htmlspecialchars($row['programa']) ?></td>
-                    <td>
-                        <a href="/monolitico/controllers/materia-controller.php?action=editar&codigo=<?= urlencode($row['codigo']) ?>">Editar</a> |
-                        <a href="/monolitico/controllers/materia-controller.php?action=eliminar&codigo=<?= urlencode($row['codigo']) ?>"
-                           onclick="return confirm('¿Deseas eliminar esta materia?')">Eliminar</a>
-                    </td>
+                    <td colspan="4" class="sin-registros">No hay materias registradas</td>
                 </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr><td colspan="4">No hay materias registradas</td></tr>
-        <?php endif; ?>
-    </table>
-    <br>
-    <a href="/monolitico/controllers/materia-controller.php?action=crear">Nueva Materia</a>
-    <br>
-    <br>
-    <a href="/monolitico/views/principal.php">Volver al menú</a>
+            <?php endif; ?>
+        </table>
+        
+        <div class="acciones-container">
+            <a href="/monolitico/views/principal.php" class="volver">Volver al menú</a>
+            <a href="/monolitico/controllers/materia-controller.php?action=crear" class="nueva-materia">Nueva Materia</a>
+
+        </div>
+    </div>
     
 </body>
 </html>

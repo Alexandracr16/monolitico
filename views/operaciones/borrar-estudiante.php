@@ -22,7 +22,7 @@
     ?>
         <h1>No se puede eliminar el estudiante porque tiene notas registradas</h1>
         <br>
-        <a href="../estudiante.php" class="volver"> ← Volver a la lista de estudiantes</a>
+        <a href="../estudiante.php" class="volver"> Volver a la lista de estudiantes</a>
     <?php
         exit;
     }
