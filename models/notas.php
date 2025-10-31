@@ -92,11 +92,11 @@ class Notas extends Model
             return ["Error: La nota debe estar entre 0 y 5"];
         }
 
-        if (round($this->nota,2) != $this->nota){
-            return ["Error: La nota debe tener máximo dos decimales"];
+        if (!preg_match('/^\d+(\.\d{1,2})?$/', $this->nota)) {
+            return ["Error" => "La nota debe tener máximo dos decimales."];
         }
 
-         $db = new notasAppBD();
+        $db = new notasAppBD();
 
         //  Verificar que el estudiante exista
         $checkEst = $db->execSQL(
@@ -188,5 +188,12 @@ class Notas extends Model
         return $promedio;
     }
     
+    public function deleteAllByEstudiante($codigoEstudiante) {
+        $db = new notasAppBD();
+        $sql = "DELETE FROM notas WHERE estudiante = ?";
+        $result = $db->execSQL($sql, false, "s", $codigoEstudiante);
+        $db->close();
+        return $result ? true : ["Error" => "No se pudieron eliminar las notas del estudiante."];
+    }
     
 }

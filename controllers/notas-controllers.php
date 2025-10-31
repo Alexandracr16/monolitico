@@ -22,7 +22,7 @@ class Notas_controllers
         }
         // Validate nota que este entre 0 a 5, con maximo de 2 decimales
         $notaValor= floatval($request['nota']);
-        if($notaValor < 0 || $notaValor > 5){
+        if($notaValor <= 0 || $notaValor >= 5){
             return ["error" => "La nota debe estar entre 0 y 5"];
         }
 
@@ -65,7 +65,7 @@ class Notas_controllers
         }
 
         $notaValor= floatval($request['nota']);
-        if($notaValor < 0 || $notaValor > 5){
+        if($notaValor <= 0 || $notaValor >= 5){
             return ["error" => "La nota debe estar entre 0 y 5"];
         }
 

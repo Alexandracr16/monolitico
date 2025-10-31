@@ -18,12 +18,21 @@
             <label>Programa:</label>
             <select name="programa" required>
                 <option value="">Seleccione un programa</option>
-                <?php while ($p = $programas->fetch_assoc()): ?>
-                    <option value="<?= htmlspecialchars($p['codigo']) ?>"
-                        <?= isset($materia['codigo_programa']) && $materia['codigo_programa'] == $p['codigo'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($p['nombre']) ?>
-                    </option>
-                <?php endwhile; ?>
+                <?php if (is_array($programas) || $programas instanceof Traversable): ?>
+                    <?php foreach ($programas as $p): ?>
+                        <option value="<?= htmlspecialchars($p['codigo']) ?>"
+                            <?= isset($materia['codigo_programa']) && $materia['codigo_programa'] == $p['codigo'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($p['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php elseif ($programas instanceof mysqli_result): ?>
+                    <?php while ($p = $programas->fetch_assoc()): ?>
+                        <option value="<?= htmlspecialchars($p['codigo']) ?>"
+                            <?= isset($materia['codigo_programa']) && $materia['codigo_programa'] == $p['codigo'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($p['nombre']) ?>
+                        </option>
+                    <?php endwhile; ?>
+                <?php endif; ?>
             </select>
 
             <button type="submit">Guardar</button>
