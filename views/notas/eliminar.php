@@ -9,17 +9,17 @@ $materia = $_GET['materia'] ?? '';
 $actividad = $_GET['actividad'] ?? '';
 
 if (empty($estudiante) || empty($materia) || empty($actividad)) {
-    echo "<script>alert(' Faltan datos para eliminar la nota.'); window.location='nota.php';</script>";
+    echo "<script>alert(' Faltan datos para eliminar la nota.'); window.location='../nota.php';</script>";
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['confirmar']) && $_POST['confirmar'] === 'Sí') {
         $controller->deleteNotas($_POST);
-        echo "<script>alert('Nota eliminada correctamente'); window.location='nota.php';</script>";
+        header("Location: ../nota.php?mensaje=Eliminado");
         exit;
     } else {
-        header("Location: nota.php");
+        header("Location: ../nota.php");
         exit;
     }
 }

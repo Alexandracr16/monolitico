@@ -98,7 +98,7 @@ class Notas extends Model
 
          $db = new notasAppBD();
 
-        // ✅ Verificar que el estudiante exista
+        //  Verificar que el estudiante exista
         $checkEst = $db->execSQL(
             "SELECT COUNT(*) AS total FROM estudiantes WHERE codigo = ?",
             true,

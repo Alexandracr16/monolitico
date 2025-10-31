@@ -28,6 +28,9 @@ $notas = $controller->queryAllNotas();
   <body>
 
     <h1>Notas</h1>
+    <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'eliminada'): ?>
+      <script>alert('Nota eliminada correctamente');</script>
+    <?php endif; ?>
 
     <div class="contenedor-principal">
       <!-- Columna del formulario -->

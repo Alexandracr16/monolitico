@@ -11,21 +11,26 @@ $actividad = $_GET['actividad'] ?? '';
 $nota = $_GET['nota'] ?? '';
 
 if (empty($estudiante) || empty($materia) || empty($actividad)) {
-    echo "<script>alert('❌ Faltan datos para editar la nota.'); window.location='listar.php';</script>";
+    echo "<script>alert('Faltan datos para editar la nota.'); window.location='../nota.php';</script>";
     exit;
 }
 
-// Si se envía el formulario (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $resultado = $controller->updateNotas($_POST);
-
-    if (is_array($resultado) && isset($resultado['error'])) {
-        echo "<script>alert('❌ " . $resultado['error'] . "');</script>";
-    } elseif ($resultado) {
-        echo "<script>alert('✅ Nota actualizada correctamente'); window.location='listar.php';</script>";
-        exit;
+    // Validar que la nota esté entre 0 y 5 con máximo 2 decimales
+    $nuevaNota = floatval($_POST['nota']);
+    if ($nuevaNota < 0 || $nuevaNota > 5) {
+        echo "<script>alert(' La nota debe estar entre 0 y 5.');</script>";
     } else {
-        echo "<script>alert('❌ Error al actualizar la nota');</script>";
+        $resultado = $controller->updateNotas($_POST);
+
+        if (is_array($resultado) && isset($resultado['error'])) {
+            echo "<script>alert('❌ " . $resultado['error'] . "');</script>";
+        } elseif ($resultado) {
+            echo "<script>alert('✅ Nota actualizada correctamente'); window.location='../nota.php';</script>";
+            exit;
+        } else {
+            echo "<script>alert('❌ Error al actualizar la nota');</script>";
+        }
     }
 }
 ?>
@@ -55,8 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="number" name="nota" value="<?= htmlspecialchars($nota) ?>" min="0" max="5" step="0.01" required>
         </label>
 
-        <button type="submit">Actualizar</button>
-        <a href="listar.php">Cancelar</a>
+        <div class="botones">
+            <button type="submit" class="btn-guardar">Actualizar</button>
+            <a href="../nota.php" class="btn-cancelar">Cancelar</a>
+        </div>
     </form>
   </div>
 </body>
