@@ -6,6 +6,7 @@ use App\Models\Programa;
 
 class ProgramaController
 {
+    
     private $model;
 
     public function __construct()
@@ -13,6 +14,10 @@ class ProgramaController
         $this->model = new Programa(); 
     }
 
+    public function queryAll()
+    {
+        return $this->model->listar();
+    }
     // Listar programas
     public function listar()
     {
