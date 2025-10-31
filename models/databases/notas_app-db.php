@@ -9,7 +9,7 @@ class notasAppBD
     private $userDb = "root";
     private $pwdDb = "";
     private $nameDb = "notas_app";
-    private $conexDb = null;
+    private $conexDb;
 
     public function __construct()
     {

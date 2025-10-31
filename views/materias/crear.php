@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../public/css/materia/nuevamateria.css">
 </head>
 <body>
-       <div class="contenedor">
+    <div class="contenedor">
         <h2>Nueva Materia</h2>
         <form action="/monolitico/controllers/materia-controller.php?action=crear" method="POST">
             <label>Código:</label>
@@ -17,7 +17,7 @@
 
             <label>Programa:</label>
             <select name="programa" required>
-                <option value="">Ej: Sistemas</option>
+                <option value="">Seleccione un programa</option>
                 <?php while ($p = $programas->fetch_assoc()): ?>
                     <option value="<?= htmlspecialchars($p['codigo']) ?>">
                         <?= htmlspecialchars($p['nombre']) ?>

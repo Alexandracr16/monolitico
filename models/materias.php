@@ -46,4 +46,18 @@ class Materia
         $sql = "DELETE FROM materias WHERE codigo = ?";
         return $this->db->execSQL($sql, false, "s", $codigo);
     }
+
+    public function hasstudents($codigo){
+        $sql = "SELECT COUNT(*) AS total FROM estudiantes WHERE programa iN (SeLECT programa FROM materias WHERE codigo = ?)";
+        $res = $this->db->execSQL($sql, true, "s", $codigo);
+        $row = $res->fetch_assoc();
+        return $row['total'] > 0;
+    }
+
+    public function hasnotas($codigo){
+        $sql = "SELECT COUNT(*) AS total FROM notas WHERE materia = ?";
+        $res = $this->db->execSQL($sql, true, "s", $codigo);
+        $row = $res->fetch_assoc();
+        return $row['total'] > 0;
+    }
 }

@@ -5,14 +5,17 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../models/materias.php';
 require_once __DIR__ . '/../models/programas.php';
 
+use App\Models\Programa;
 use App\Models\Materia;
 class MateriaController
 {
     private $model;
+    private $programas;
 
     public function __construct()
     {
         $this->model = new Materia();
+        $this->programas = new Programa();
     }
 
     public function listar()
@@ -23,25 +26,24 @@ class MateriaController
 
     public function crear()
     {
-        $programaModel = new Programa();
-        $programas = $programaModel->listar();
-
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $codigo = trim($_POST['codigo'] ?? '');
             $nombre = trim($_POST['nombre'] ?? '');
             $programa = trim($_POST['programa'] ?? '');
 
             if ($codigo === '' || $nombre === '' || $programa === '') {
-                die('Completar los datos');
+                echo "<script>alert('❌ Debe completar todos los campos.'); window.location='materia-controller.php?action=listar';</script>";
+                exit;
             }
 
             $ok = $this->model->crear($codigo, $nombre, $programa);
 
             if ($ok) {
-                header('Location: /monolitico/controllers/materia-controller.php?action=listar');
+                echo "<script>alert('✅ Materia creada correctamente.'); window.location='materia-controller.php?action=listar';</script>";
                 exit;
             } else {
-                die('El codigo ya existe');
+                echo "<script>alert('⚠️ Error: El código ya existe.'); window.location='materia-controller.php?action=listar';</script>";
             }
         } else {
             include __DIR__ . '/../views/materias/crear.php';
@@ -50,26 +52,31 @@ class MateriaController
 
     public function editar()
     {
-        $programaModel = new Programa();
-        $programas = $programaModel->listar();
-
         $codigo = $_GET['codigo'] ?? null;
-        if (!$codigo) die('El codigo no existe');
+        if (!$codigo) {
+            echo "<script>alert('❌ Falta el código de la materia.'); window.location='materia-controller.php?action=listar';</script>";
+            exit;
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre = trim($_POST['nombre'] ?? '');
             $programa = trim($_POST['programa'] ?? '');
 
-            if ($nombre === '' || $programa === '') die('Complatar los datos');
+            if ($nombre === '' || $programa === '') {
+                echo "<script>alert('❌ Faltan datos para actualizar la materia.'); window.location='materia-controller.php?action=listar';</script>";
+                exit;
+            }
+
+            if ($this->model->hasNotas($codigo) || $this->model->hasstudents($codigo)) {
+                echo "<script>alert('⚠️ No se puede editar la materia porque tiene estudiantes o notas asociadas.'); window.location='materia-controller.php?action=listar';</script>";
+                exit;
+            }
 
             $ok = $this->model->editar($codigo, $nombre, $programa);
 
             if ($ok) {
-                header('Location: /monolitico/controllers/materia-controller.php?action=listar');
-                exit;
-            } else {
-                die('Editar la materia3');
-            }
+                 echo "<script>alert('⚠️ No se pudo guardar los cambios.'); window.location='materia-controller.php?action=listar';</script>";
+            } 
         } else {
             $materia = $this->model->buscar($codigo);
             include __DIR__ . '/../views/materias/editar.php';
@@ -79,8 +86,39 @@ class MateriaController
     public function eliminar()
     {
         $codigo = $_GET['codigo'] ?? null;
-        if ($codigo) $this->model->eliminar($codigo);
-        header('Location: /monolitico/controllers/materia-controller.php?action=listar');
+
+        // ⚠️ Corregido: la validación debe ser "si NO hay código"
+        if (!$codigo) {
+            echo "<script>
+                alert('❌ Falta el código de la materia.');
+                window.location='materia-controller.php?action=listar';
+            </script>";
+            exit;
+        }
+
+        // Verificar si tiene dependencias
+        if ($this->model->hasNotas($codigo) || $this->model->hasstudents($codigo)) {
+            echo "<script>
+                alert('⚠️ No se puede eliminar la materia porque tiene estudiantes o notas asociadas.');
+                window.location='materia-controller.php?action=listar';
+            </script>";
+            exit;
+        }
+
+        // Eliminar la materia
+        $ok = $this->model->eliminar($codigo);
+
+        if ($ok) {
+            echo "<script>
+                alert('✅ Materia eliminada correctamente.');
+                window.location='materia-controller.php?action=listar';
+            </script>";
+        } else {
+            echo "<script>
+                alert('⚠️ Error al eliminar la materia.');
+                window.location='materia-controller.php?action=listar';
+            </script>";
+        }
         exit;
     }
 }
