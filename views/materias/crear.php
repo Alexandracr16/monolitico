@@ -19,7 +19,8 @@
             <select name="programa" required>
                 <option value="">Seleccione un programa</option>
                 <?php while ($p = $programas->fetch_assoc()): ?>
-                    <option value="<?= htmlspecialchars($p['codigo']) ?>">
+                    <option value="<?= htmlspecialchars($p['codigo']) ?>"
+                        <?= isset($materia['codigo_programa']) && $materia['codigo_programa'] == $p['codigo'] ? 'selected' : '' ?>>
                         <?= htmlspecialchars($p['nombre']) ?>
                     </option>
                 <?php endwhile; ?>
