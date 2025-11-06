@@ -37,7 +37,7 @@ class MateriaController
 
             if ($codigo === '' || $nombre === '' || $programa === '') {
                 echo "<script>
-                        alert('❌ Debe completar todos los campos.');
+                        alert('Debe completar todos los campos.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
                 exit;
@@ -47,13 +47,13 @@ class MateriaController
 
             if ($ok) {
                 echo "<script>
-                        alert('✅ Materia creada correctamente.');
+                        alert('Materia creada correctamente.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
                 exit;
             } else {
                 echo "<script>
-                        alert('⚠️ Error: El código ya existe.');
+                        alert('Error: El código ya existe.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
             }
@@ -69,7 +69,7 @@ class MateriaController
 
         if (!$codigo) {
             echo "<script>
-                    alert('❌ Falta el código de la materia.');
+                    alert('Falta el código de la materia.');
                     window.location='materia-controller.php?action=listar';
                   </script>";
             exit;
@@ -84,7 +84,7 @@ class MateriaController
 
             if ($nombre === '' || $programa === '') {
                 echo "<script>
-                        alert('❌ Faltan datos para actualizar la materia.');
+                        alert('Faltan datos para actualizar la materia.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
                 exit;
@@ -93,7 +93,7 @@ class MateriaController
             // Verifica dependencias antes de actualizar
             if ($this->model->hasNotas($codigo) || $this->model->hasstudents($codigo)) {
                 echo "<script>
-                        alert('⚠️ No se puede editar la materia porque tiene estudiantes o notas asociadas.');
+                        alert('No se puede editar la materia porque tiene estudiantes o notas asociadas.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
                 exit;
@@ -101,15 +101,15 @@ class MateriaController
 
             $ok = $this->model->editar($codigo, $nombre, $programa);
 
-            // ✅ Corrección: si fue bien, muestra éxito
+            //Corrección: si fue bien, muestra éxito
             if ($ok) {
                 echo "<script>
-                        alert('✅ Materia actualizada correctamente.');
+                        alert('Materia actualizada correctamente.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
             } else {
                 echo "<script>
-                        alert('⚠️ No se pudo guardar los cambios.');
+                        alert('No se pudo guardar los cambios.');
                         window.location='materia-controller.php?action=listar';
                       </script>";
             }
@@ -127,7 +127,7 @@ class MateriaController
 
         if (!$codigo) {
             echo "<script>
-                    alert('❌ Falta el código de la materia.');
+                    alert('Falta el código de la materia.');
                     window.location='materia-controller.php?action=listar';
                   </script>";
             exit;
@@ -135,7 +135,7 @@ class MateriaController
 
         if ($this->model->hasNotas($codigo) || $this->model->hasstudents($codigo)) {
             echo "<script>
-                    alert('⚠️ No se puede eliminar la materia porque tiene estudiantes o notas asociadas.');
+                    alert('No se puede eliminar la materia porque tiene estudiantes o notas asociadas.');
                     window.location='materia-controller.php?action=listar';
                   </script>";
             exit;
@@ -145,12 +145,12 @@ class MateriaController
 
         if ($ok) {
             echo "<script>
-                    alert('✅ Materia eliminada correctamente.');
+                    alert('Materia eliminada correctamente.');
                     window.location='materia-controller.php?action=listar';
                   </script>";
         } else {
             echo "<script>
-                    alert('⚠️ Error al eliminar la materia.');
+                    alert('Error al eliminar la materia.');
                     window.location='materia-controller.php?action=listar';
                   </script>";
         }

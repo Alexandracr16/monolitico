@@ -32,7 +32,7 @@ class Estudiante extends Model
     {
         $sql = "SELECT codigo, nombre FROM programas";
         $db = new notasAppBD();
-        $result = $db->execSQL($sql, true);
+        $result = $db->execSQL($sql, true);//ejecuta una consulta con dos argumentos
         $programas = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -50,8 +50,8 @@ class Estudiante extends Model
         $result = $db->execSQL($sql, true);
         $estudiantes = [];
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $estudiante = new Estudiante();
+            while ($row = $result->fetch_assoc()) {//el fetch_assoc devuelve las filas del consulta
+                $estudiante = new Estudiante();//crea un nuevo objeto y rellena sus propiedades en base a la consulta
                 $estudiante->set('codigo', $row["codigo"]);
                 $estudiante->set('nombre', $row["nombre"]);
                 $estudiante->set('email', $row["email"]);
@@ -60,7 +60,7 @@ class Estudiante extends Model
             }
         }
         $db->close();
-        return $estudiantes;
+        return $estudiantes;//array de objetos estudiantes 
     }
 
     public function delete()

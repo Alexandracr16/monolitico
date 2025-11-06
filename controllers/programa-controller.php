@@ -33,17 +33,17 @@ class ProgramaController
             $nombre = trim($_POST['nombre'] ?? '');
 
             if ($codigo === '' || $nombre === '') {
-                echo "<script>alert('❌ Faltan datos'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>"; 
+                echo "<script>alert('Faltan datos'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>"; 
                 exit;
             }
 
             $ok = $this->model->crear($codigo, $nombre);
 
             if ($ok) {
-                echo "<script>alert('✅ Programa creado correctamente'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+                echo "<script>alert('Programa creado correctamente'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
                 exit;
             } else {
-                echo "<script>alert('⚠️ El código ya existe o ocurrió un error al crear.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+                echo "<script>alert('El código ya existe o ocurrió un error al crear.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
             }
         } else {
             include __DIR__ . '/../views/programas/crear.php';
@@ -55,7 +55,7 @@ class ProgramaController
     {
         $codigo = $_GET['codigo'] ?? null;
         if (!$codigo) {
-            echo "<script>alert('❌ Falta el código del programa.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+            echo "<script>alert('Falta el código del programa.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
             exit;
         } 
 
@@ -63,23 +63,23 @@ class ProgramaController
             $nombre = trim($_POST['nombre'] ?? '');
 
             if ($nombre === '') {
-                echo "<script>alert('❌ Falta el nombre del programa.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+                echo "<script>alert('Falta el nombre del programa.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
                 exit;
             } 
 
             // Verificar dependencias
             if ($this->model->havestudents($codigo) || $this->model->hassubjects($codigo)) {
-                echo "<script>alert('⚠️ No se puede editar el programa porque tiene estudiantes o materias asociados.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+                echo "<script>alert('No se puede editar el programa porque tiene estudiantes o materias asociados.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
                 exit; 
             }
 
             $ok = $this->model->editar($codigo, $nombre);
 
             if ($ok) {
-                echo "<script>alert('✅ Programa actualizado correctamente'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+                echo "<script>alert('Programa actualizado correctamente'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
                 exit;
             } else {
-                echo "<script>alert('⚠️ No se pudo guardar los cambios.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+                echo "<script>alert('No se pudo guardar los cambios.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
                 exit;
             }
         } else {
@@ -93,23 +93,23 @@ class ProgramaController
     {
         $codigo = $_GET['codigo'] ?? null;
         if (!$codigo) {
-            echo "<script>alert('❌ Falta código del programa'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+            echo "<script>alert('Falta código del programa'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
             exit;
         }
 
         // Verificar dependencias
         if ($this->model->havestudents($codigo) || $this->model->hassubjects($codigo)) {
-            echo "<script>alert('⚠️ No se puede eliminar el programa porque tiene estudiantes o materias asociados.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+            echo "<script>alert('No se puede eliminar el programa porque tiene estudiantes o materias asociados.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
             exit;
         }
 
         $ok = $this->model->eliminar($codigo);
 
         if ($ok) {
-            echo "<script>alert('✅ Programa eliminado correctamente'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+            echo "<script>alert('Programa eliminado correctamente'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
             exit;
         } else {
-            echo "<script>alert('⚠️ Error al eliminar el programa.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
+            echo "<script>alert('Error al eliminar el programa.'); window.location='/monolitico/controllers/programa-controller.php?action=listar';</script>";
             exit;
         }
     }

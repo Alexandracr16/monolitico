@@ -87,7 +87,7 @@ class Notas_controllers
         return $notas->findByEstudiante($codigoEstudiante);
     }
 
-    // 🔹 6. Calcular promedio de estudiante por materia
+    //Calcular promedio de estudiante por materia
     public function promedioEstudiante($codigoEstudiante, $codigoMateria)
     {
         if (empty($codigoEstudiante) || empty($codigoMateria)) {

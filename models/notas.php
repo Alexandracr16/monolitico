@@ -113,7 +113,7 @@ class Notas extends Model
             }
         }
 
-        // ✅ Verificar que la materia exista
+        //Verificar que la materia exista
         $checkMat = $db->execSQL(
             "SELECT COUNT(*) AS total FROM materias WHERE codigo = ?",
             true,

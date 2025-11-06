@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../../controllers/materia-controller.php";
 require_once __DIR__ . "/../../controllers/programa-controller.php";
 
+use \App\Controllers\ProgramaController;
 
 $materiaCtrl = new MateriaController();
 $programaCtrl = new ProgramaController();
@@ -12,11 +13,13 @@ $programas = $programaCtrl->listar();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Materias por Programa</title>
   <link rel="stylesheet" href="/monolitico/public/css/consultas.css">
 </head>
+
 <body>
   <div class="contenedor-consulta">
     <h1>Materias por Programa de Formación</h1>
@@ -27,7 +30,13 @@ $programas = $programaCtrl->listar();
           <h2>Programa: <?= htmlspecialchars($prog['nombre']) ?> (<?= htmlspecialchars($prog['codigo']) ?>)</h2>
 
           <?php
-          $materiasPrograma = array_filter($materias, fn($m) => $m['programa'] === $prog['codigo']);
+          // Asegurar que $materias sea array
+          if (!is_array($materias)) {
+            $materias = is_iterable($materias) ? iterator_to_array($materias) : (array)$materias;
+          }
+          $materiasPrograma = array_filter($materias, function ($m) use ($prog) {
+            return isset($m['programa']) && $m['programa'] === $prog['codigo'];
+          });
           ?>
 
           <?php if (!empty($materiasPrograma)): ?>
@@ -61,4 +70,5 @@ $programas = $programaCtrl->listar();
     </div>
   </div>
 </body>
+
 </html>
