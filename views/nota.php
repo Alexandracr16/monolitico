@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($resultado['error'])) {
     echo "<script>alert('{$resultado['error']}');</script>";
   } else {
-    echo "<script>alert('✅ Nota guardada correctamente'); window.location='nota.php';</script>";
+    echo "<script>alert('Nota guardada correctamente'); window.location='nota.php';</script>";
     exit;
   }
 

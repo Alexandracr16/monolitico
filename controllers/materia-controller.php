@@ -27,7 +27,7 @@ class MateriaController
 
     public function crear()
     {
-        // 📘 Obtener programas antes de mostrar el formulario
+        //Obtener programas antes de mostrar el formulario
         $programas = $this->programas->listar();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -58,7 +58,7 @@ class MateriaController
                       </script>";
             }
         } else {
-            // 📘 Pasar $programas a la vista
+            //Pasar $programas a la vista
             include __DIR__ . '/../views/materias/crear.php';
         }
     }
@@ -75,7 +75,7 @@ class MateriaController
             exit;
         }
 
-        // 📘 Obtener programas antes del formulario
+        //Obtener programas antes del formulario
         $programas = $this->programas->listar();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -116,7 +116,7 @@ class MateriaController
             exit;
         } else {
             $materia = $this->model->buscar($codigo);
-            // 📘 Pasar $materia y $programas a la vista
+            //Pasar $materia y $programas a la vista
             include __DIR__ . '/../views/materias/editar.php';
         }
     }
@@ -157,6 +157,7 @@ class MateriaController
         exit;
     }
 }
+
 
 // ---- Ejecutar acción ----
 $action = $_GET['action'] ?? 'listar';

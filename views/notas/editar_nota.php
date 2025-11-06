@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = $controller->updateNotas($_POST);
 
         if (is_array($resultado) && isset($resultado['error'])) {
-            echo "<script>alert('❌ " . $resultado['error'] . "');</script>";
+            echo "<script>alert('" . $resultado['error'] . "');</script>";
         } elseif ($resultado) {
-            echo "<script>alert('✅ Nota actualizada correctamente'); window.location='../nota.php';</script>";
+            echo "<script>alert('Nota actualizada correctamente'); window.location='../nota.php';</script>";
             exit;
         } else {
-            echo "<script>alert('❌ Error al actualizar la nota');</script>";
+            echo "<script>alert('Error al actualizar la nota');</script>";
         }
     }
 }

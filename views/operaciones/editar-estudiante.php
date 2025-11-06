@@ -29,7 +29,7 @@ if (!empty($_POST) && !empty($_POST['codigo'])) {
 </head>
 
 <body>
-    <h1>Error guardando los malparidos datos<h1>
+    <h1>Error guardando los datos<h1>
             <br>
             <a href="../editar-eform.php">Volver</a>
 </body>

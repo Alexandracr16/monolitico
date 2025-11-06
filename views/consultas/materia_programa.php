@@ -2,27 +2,21 @@
 require_once __DIR__ . "/../../controllers/materia-controller.php";
 require_once __DIR__ . "/../../controllers/programa-controller.php";
 
-use \App\Controllers\ProgramaController;
+use App\Controllers\ProgramaController;
 
 $materiaCtrl = new MateriaController();
 $programaCtrl = new ProgramaController();
 
-$materias = $materiaCtrl->listar();
-$programas = $programaCtrl->listar();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <title>Materias por Programa</title>
   <link rel="stylesheet" href="/monolitico/public/css/consultas.css">
 </head>
-
 <body>
-  <div class="contenedor-consulta">
-    <h1>Materias por Programa de Formación</h1>
 
     <?php if (!empty($programas)): ?>
       <?php foreach ($programas as $prog): ?>
@@ -30,13 +24,7 @@ $programas = $programaCtrl->listar();
           <h2>Programa: <?= htmlspecialchars($prog['nombre']) ?> (<?= htmlspecialchars($prog['codigo']) ?>)</h2>
 
           <?php
-          // Asegurar que $materias sea array
-          if (!is_array($materias)) {
-            $materias = is_iterable($materias) ? iterator_to_array($materias) : (array)$materias;
-          }
-          $materiasPrograma = array_filter($materias, function ($m) use ($prog) {
-            return isset($m['programa']) && $m['programa'] === $prog['codigo'];
-          });
+          $materiasPrograma = array_filter($materias, fn($m) => $m['programa'] === $prog['codigo']);
           ?>
 
           <?php if (!empty($materiasPrograma)): ?>
@@ -57,18 +45,13 @@ $programas = $programaCtrl->listar();
               </tbody>
             </table>
           <?php else: ?>
-            <p class="sin-materias">No hay materias registradas para este programa.</p>
           <?php endif; ?>
         </div>
       <?php endforeach; ?>
     <?php else: ?>
-      <p style="text-align:center;">No hay programas registrados.</p>
     <?php endif; ?>
-
     <div class="acciones">
       <a href="../principal.php" class="volver">⬅ Volver</a>
     </div>
-  </div>
 </body>
-
 </html>
