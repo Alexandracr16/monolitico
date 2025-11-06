@@ -13,7 +13,7 @@ if($result){
 }
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- creo que basicamente esto nunnca se ejecutaria, pero lo mantenemos por el css -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">

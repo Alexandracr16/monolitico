@@ -5,7 +5,7 @@ use App\Controllers\EstudianteController;
 
 $estudianteController = new EstudianteController;
 
-if (!empty($_POST) && !empty($_POST['codigo'])) {
+if (!empty($_POST) && !empty($_POST['codigo'])) {//asegura que lo que se envio por post no este vacio y de esa manera ejecuta la atualizacion
     $result = $estudianteController->updateEstudiante($_POST);
     if ($result) {
         header("Location: ../estudiante.php");
@@ -13,9 +13,7 @@ if (!empty($_POST) && !empty($_POST['codigo'])) {
     }
     // Si falla, mostramos el error específico
     $error = "No se puede modificar el estudiante porque tiene notas registradas";
-} else {
-    $error = "Datos incompletos";
-}
+} 
 
 ?>
 

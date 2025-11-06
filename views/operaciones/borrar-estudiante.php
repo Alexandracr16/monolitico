@@ -16,7 +16,7 @@
 
     $estudianteController = new EstudianteController();
 
-    $id = empty($_POST['codigo']) ? "" : $_POST['codigo'];
+    $id = empty($_POST['codigo']) ? "" : $_POST['codigo'];//asigna lo que se envio por post a la variable id
 
     if ($id && $estudianteController->hasNotas($id)) {
     ?>
